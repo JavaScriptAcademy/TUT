@@ -1,24 +1,39 @@
-<ion-view title="Create Default Page" id="page2">
+<ion-view title="Create Meeting" id="page2">
     <ion-content padding="true" class="has-header">
         <form class="list">
-            <ion-radio>Name</ion-radio>
-            <ion-radio>Time</ion-radio>
-            <ion-radio>Host</ion-radio>
-            <ion-radio>Info</ion-radio>
             <label class="item item-input">
-                <span class="input-label"></span><textarea placeholder="Tell us more info about your session..."> </textarea>
+                <span class="input-label">Meeting Name</span>
+                <input ng-model="meeting.name" type="text">
             </label>
+            <label class="item item-input">
+                <span class="input-label">HostName</span>
+                <input ng-model="meeting.host" type="text">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Time</span>
+                <input ng-model="meeting.time" type="text">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Meeting InFo</span>
+                <input ng-model="meeting.description" type="text">
+            </label>
+
             <label class="item item-select">
-                <span class="input-label">Add People</span>
-                <select>
-                    <option>Fiona</option>
-                    <option>Phil</option>
-                    <option>Yiran</option>
-                    <option>JsAcademy</option>
-                </select>
+                <span class="input-label">Add Friends</span>
+                     <label class="item item-input">
+                      <i class="icon ion-search placeholder-icon"></i>
+                      <input type="search" placeholder="Search">
+                    </label>
             </label>
         </form>
-        <button id="createDefaultPage-button2" class="button button-positive  button-block">Create</button>
-        <button id="createDefaultPage-button1" style="font-weight:600;" class="button button-positive  button-block">Cancel</button>
+        <button class="button" ng-click="show()">Show Action Sheet</button>
+        <button class="button" ng-click="clear()">Clear Action Sheet</button>
+        <h3 ng-bind="meeting.name"></h3>
+        <p ng-bind="meeting.host"></p>
+        <p ng-bind="meeting.time"></p>
+        <p ng-bind="meeting.description"></p>
+
+        <!-- <button id="createDefaultPage-button2" class="button button-positive  button-block">Create</button> -->
+        <!-- <button style="font-weight:600;" class="button button-positive ng-click="clear()" button-block">Clear</button> -->
     </ion-content>
 </ion-view>
