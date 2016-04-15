@@ -20,30 +20,30 @@ angular.module('app.controllers', ['app.services'])
 
 })
 
-.controller('liveCtrl', function($scope, $cordovaCamera, $stateParams, $state, $ionicPopup,$ionicLoading, $ionicPopup, TaskService) {
+.controller('liveCtrl', function($scope, $cordovaCamera, BlankFactory) {
   // $scope.settingavatar = {};
    // document.addEventListener("deviceready", function openCamera () {
-  $scope.openCamera = function() {
-    var options = {
-          quality: 50,
-          destinationType: Camera.DestinationType.DATA_URL,
-          sourceType: Camera.PictureSourceType.CAMERA,
-          allowEdit: true,
-          encodingType: Camera.EncodingType.JPEG,
-          targetWidth: 100,
-          targetHeight: 100,
-          popoverOptions: CameraPopoverOptions,
-          saveToPhotoAlbum: false,
-         correctOrientation:true
-        };
+  // $scope.openCamera = function() {
+  //   var options = {
+  //         quality: 50,
+  //         destinationType: Camera.DestinationType.DATA_URL,
+  //         sourceType: Camera.PictureSourceType.CAMERA,
+  //         allowEdit: true,
+  //         encodingType: Camera.EncodingType.JPEG,
+  //         targetWidth: 100,
+  //         targetHeight: 100,
+  //         popoverOptions: CameraPopoverOptions,
+  //         saveToPhotoAlbum: false,
+  //        correctOrientation:true
+  //       };
 
-        $cordovaCamera.getPicture(options).then(function(imageData) {
-          // var image = document.getElementById('myImage');
-          $scope.imgURI = "data:image/jpeg;base64," + imageData;
-        }, function(err) {
-          // error
-        });
-  }
+  //       $cordovaCamera.getPicture(options).then(function(imageData) {
+  //         // var image = document.getElementById('myImage');
+  //         $scope.imgURI = "data:image/jpeg;base64," + imageData;
+  //       }, function(err) {
+  //         // error
+  //       });
+  // }
 
   // $scope.task = {};
   // $scope.defect = {};
@@ -65,76 +65,58 @@ angular.module('app.controllers', ['app.services'])
     console.log("***********GetDefectDetai%%%%%%%%%%%%%%%%%l");
 
 
-  TaskService.GetDefectComment(function(response){
+  BlankFactory.GetUser();
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    // $scope.addComment = function(){
 
-      console.log("size: " + response.data.data.length);
-      if(response.data.data.length > 0){
-        console.log("true");
-        $scope.haveComments = true;
-        $scope.allComments = response.data.data;
-        $scope.commentList = $scope.allComments.slice(0, 5);
-        if(response.data.data.length > 5){
-          $scope.haveMoreComments = true;
-        }else{
-          $scope.haveMoreComments = false;
-        }
-      }else{
-        $scope.haveComments = false;
-      }
-    });
+    //     $scope.editable = !$scope.editable;
+    // }
 
-    $scope.addComment = function(){
+    // $scope.submitComment = function(){
+    //   var defectComment = document.getElementById("defectComment").value;
+    //   TaskService.SubmitDefectComment(Comment, function(response){
 
-        $scope.editable = !$scope.editable;
-    }
-
-    $scope.submitComment = function(){
-      var defectComment = document.getElementById("defectComment").value;
-      TaskService.SubmitDefectComment(Comment, function(response){
-
-      clearDefaultText(defectComment);
+    //   clearDefaultText(defectComment);
 
 
-      function clearDefaultText (message)
-      {
-        var obj = document.getElementById("defectComment");
+    //   function clearDefaultText (message)
+    //   {
+    //     var obj = document.getElementById("defectComment");
 
-        if(obj.value == message)
-        {
-          obj.value = "";
-        }
+    //     if(obj.value == message)
+    //     {
+    //       obj.value = "";
+    //     }
 
-        obj.onblur = function()
-        {
-          if(obj.value == "")
-          {
-             obj.value = message;
-          }
-        }
-      }
+    //     obj.onblur = function()
+    //     {
+    //       if(obj.value == "")
+    //       {
+    //          obj.value = message;
+    //       }
+    //     }
+    //   }
 
-      TaskService.GetDefectComment(function(response){
-        // $ionicLoading.hide();
-        console.log("size: " + response.data.data.length);
-        if(response.data.data.length > 0){
-          console.log("true");
-          $scope.haveComments = true;
-          $scope.allComments = response.data.data;
-          $scope.commentList = $scope.allComments.slice(0, 5);
-          if(response.data.data.length > 5){
-            $scope.haveMoreComments = true;
-          }else{
-            $scope.haveMoreComments = false;
-          }
-        }else{
-          $scope.haveComments = false;
-        }
-      });
-      });
-      $scope.editable = false;
-    }
+    //   TaskService.GetDefectComment(function(response){
+    //     // $ionicLoading.hide();
+    //     console.log("size: " + response.data.data.length);
+    //     if(response.data.data.length > 0){
+    //       console.log("true");
+    //       $scope.haveComments = true;
+    //       $scope.allComments = response.data.data;
+    //       $scope.commentList = $scope.allComments.slice(0, 5);
+    //       if(response.data.data.length > 5){
+    //         $scope.haveMoreComments = true;
+    //       }else{
+    //         $scope.haveMoreComments = false;
+    //       }
+    //     }else{
+    //       $scope.haveComments = false;
+    //     }
+    //   });
+    //   });
+    //   $scope.editable = false;
+    // }
 })
 
 // .controller('liveCtrl', function($scope, $cordovaCamera, $cordovaFile) {
