@@ -35,5 +35,9 @@
 
         <!-- <button id="createDefaultPage-button2" class="button button-positive  button-block">Create</button> -->
         <!-- <button style="font-weight:600;" class="button button-positive ng-click="clear()" button-block">Clear</button> -->
+
+                    <div id='title'><h2>你觉得adom是帅哥吗？</h2></div>
+            <button id='yes' ng-click='voteOptionOne()' class='btn btn-info'>是:<span ng-bind="vote.option1"></span></button>
+            <button id='no'  ng-click='voteOptionTwo()' class='btn btn-info'>不是: <span ng-bind="vote.option2">票</button>
     </ion-content>
 </ion-view>

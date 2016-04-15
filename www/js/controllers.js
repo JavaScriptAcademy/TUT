@@ -1,49 +1,49 @@
-angular.module('app.controllers', ['ionic'])
+angular.module('app.controllers', ['firebase'])
   
-.controller('createDefaultPageCtrl', function($scope, $ionicActionSheet, $timeout) {
- // Triggered on a button click, or some other target
- $scope.meeting = {
- 	name:"",
- 	host:"",
- 	time:"",
- 	description:"",
- },
- $scope.clear = function() {
-	 this.meeting = {
-	 	name:"",
-	 	host:"",
-	 	time:"",
-	 	description:"",
-	 }
- }
- $scope.show = function() {
- 	console.log('111');
+.controller('createDefaultPageCtrl', ['$scope','$firebaseObject','$log',function($scope,$firebaseObject){
+                var ref = new Firebase("https://tuttut.firebaseio.com");
 
-   // Show the action sheet
-   var hideSheet = $ionicActionSheet.show({
-     buttons: [
-       { text: '<b>Share</b> This' },
-       { text: 'Move' }
-     ],
-     destructiveText: 'Delete',
-     titleText: 'Modify your album',
-     cancelText: 'Cancel',
-     cancel: function() {
-          // add cancel code..
-        },
-     destructiveButtonClicked: function(){
-     	console.log('delted');
-     },
-     buttonClicked: function(index) {
-       console.log(index);
-     }
-   });
+//this is a example to set a value which will over write the 
 
-   // For example's sake, hide the sheet after two seconds
-// hideSheet()
+var usersRef = ref.child("Fiona");
+usersRef.set({
+  alanisawesome: {
+    date_of_birth: "June 23, 1912",
+    full_name: "Alan Turing"
+  },
+  gracehop: {
+    date_of_birth: "December 9, 1906",
+    full_name: "Grace Hopper"
+  }
+});
 
- };
-})
+
+                $scope.vote = $firebaseObject(ref);
+				// $scope.vote.$loaded()
+				//   .then(function() {
+				//     $scope.vote.option1 = $scope.vote.option1;
+				//     $scope.vote.option2 = $scope.vote.option2;
+				//   })
+				//   .catch(function(err) {
+				//     console.error(err);
+				//   });
+
+
+                // $scope.vote.option1 = $scope.vote.option1;
+                // $scope.vote.option2 = $scope.vote.option2;
+                $scope.voteOptionOne = function(){
+                  $scope.vote.option1 += 1;
+                  // console.log($scope.vote.option1);
+                  $scope.vote.$save('option1');
+                };
+                $scope.voteOptionTwo = function(){
+                  $scope.vote.option2 += 1;
+                  $scope.vote.$save('option2');
+                };
+                // $scope.vote.$on('change',function(){
+                //   // $('#panel').animate({backgroundColor: "#F9D56E"}).animate({backgroundColor: "#FAFAFA"});
+                // });
+           }])
    
 .controller('listDefaultPageCtrl', function($scope) {
 

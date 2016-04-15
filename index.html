@@ -38,14 +38,14 @@ usersRef.set({
 
 
                 $scope.vote = $firebaseObject(ref);
-				$scope.vote.$loaded()
-				  .then(function() {
-				    $scope.vote.option1 = $scope.vote.option1;
-				    $scope.vote.option2 = $scope.vote.option2;
-				  })
-				  .catch(function(err) {
-				    console.error(err);
-				  });
+				// $scope.vote.$loaded()
+				//   .then(function() {
+				//     $scope.vote.option1 = $scope.vote.option1;
+				//     $scope.vote.option2 = $scope.vote.option2;
+				//   })
+				//   .catch(function(err) {
+				//     console.error(err);
+				//   });
 
 
                 // $scope.vote.option1 = $scope.vote.option1;
