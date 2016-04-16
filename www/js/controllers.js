@@ -46,7 +46,7 @@ usersRef.set({
                 // });
            }])
 
->>>>>>> df9bf8fffe28d28d432818d371e4bcef5e7943f6
+
 .controller('listDefaultPageCtrl', function($scope) {
 
 })
