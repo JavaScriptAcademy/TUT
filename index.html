@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Firebase</title>
+	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	<script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+</head>
+<body ng-app='iosvote'>
+    <div id='container' ng-controller='ivote'>
+          <div id='panel'>
+            <div id='title'><h2>你觉得adom是帅哥吗？</h2></div>
+            <button id='yes' ng-click='voteOptionOne()' class='btn btn-info'>是:<span ng-bind="vote.option1"></span></button>
+            <button id='no'  ng-click='voteOptionTwo()' class='btn btn-info'>不是: <span ng-bind="vote.option2">票</button>
+          </div>
+    </div>
+
+
+
+    <script type="text/javascript" charset="utf-8">
+       var app = angular.module('iosvote',['firebase']);
+           app.controller('ivote',['$scope','$firebaseObject','$log',function($scope,$firebaseObject){
+                var ref = new Firebase("https://tuttut.firebaseio.com");
+
+//this is a example to set a value which will over write the 
+
+var usersRef = ref.child("Fiona");
+usersRef.set({
+  alanisawesome: {
+    date_of_birth: "June 23, 1912",
+    full_name: "Alan Turing"
+  },
+  gracehop: {
+    date_of_birth: "December 9, 1906",
+    full_name: "Grace Hopper"
+  }
+});
+
+
+                $scope.vote = $firebaseObject(ref);
+				// $scope.vote.$loaded()
+				//   .then(function() {
+				//     $scope.vote.option1 = $scope.vote.option1;
+				//     $scope.vote.option2 = $scope.vote.option2;
+				//   })
+				//   .catch(function(err) {
+				//     console.error(err);
+				//   });
+
+
+                // $scope.vote.option1 = $scope.vote.option1;
+                // $scope.vote.option2 = $scope.vote.option2;
+                $scope.voteOptionOne = function(){
+                  $scope.vote.option1 += 1;
+                  // console.log($scope.vote.option1);
+                  $scope.vote.$save('option1');
+                };
+                $scope.voteOptionTwo = function(){
+                  $scope.vote.option2 += 1;
+                  $scope.vote.$save('option2');
+                };
+                // $scope.vote.$on('change',function(){
+                //   // $('#panel').animate({backgroundColor: "#F9D56E"}).animate({backgroundColor: "#FAFAFA"});
+                // });
+           }]);
+    </script>
+  </body>
+</html>
