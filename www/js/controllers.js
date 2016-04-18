@@ -2,23 +2,10 @@
 angular.module('app.controllers', ['app.services','firebase'])
 
 .controller('createDefaultPageCtrl',['$scope','$firebaseObject',function($scope,$firebaseObject){
-  var ref = new Firebase("https://fionatutprac.firebaseio.com/");
-  // https://tuttut.firebaseio.com
+  var ref = new Firebase("https://tuttut.firebaseio.com");
+  // https://tuttut.firebaseio.com https://fionatutprac.firebaseio.com/
 
   var eventsRef = ref.child("events");
-
-  // eventsRef.set({
-  //   alanisawesome: {
-  //     date_of_birth: "June 23, 1912",
-  //     full_name: "Alan Turing"
-  //   },
-  //   gracehop: {
-  //     date_of_birth: "December 9, 1906",
-  //     full_name: "Grace Hopper"
-  //   }
-  // });
-
-  // console.log("&&&",JSON.stringify(eventsRef));
 
 
   var s4 = function() {
@@ -60,10 +47,18 @@ angular.module('app.controllers', ['app.services','firebase'])
   };
 
   $scope.createEvent = function(events) {
-    $scope.events = eventsRef.push();
-    eventsRef.set({
-      name: events.name
+    events = eventsRef.push().set({
+      name: events.name,
+      comments: '',
+      info: events.info,
+      time: events.time,
+      hostname: events.host,
+      participants: '',
+
     });
+    // eventsRef.set({
+    //   name: events.name
+    // });
     // $scope.newEvent = $firebaseObject(eventsRef);
     console.log("create event called");
     // $scope.newEvent.name=$scope.newEvent.name;
