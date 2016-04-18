@@ -1,21 +1,21 @@
-<ion-view title="Create Meeting" id="page2">
+<ion-view title="Create Event" id="page2">
     <ion-content padding="true" class="has-header">
-        <form class="list">
+        <form class="list" ng-submit="createEvent(events)" novalidate>
             <label class="item item-input">
-                <span class="input-label">Meeting Name</span>
-                <input ng-model="meeting.name" type="text">
+                <span class="input-label">Event Name</span>
+                <input ng-model="events.name" type="text">
             </label>
             <label class="item item-input">
                 <span class="input-label">HostName</span>
-                <input ng-model="meeting.host" type="text">
+                <input ng-model="events.host" type="text">
             </label>
             <label class="item item-input">
                 <span class="input-label">Time</span>
-                <input ng-model="meeting.time" type="text">
+                <input ng-model="events.time" type="text">
             </label>
             <label class="item item-input">
-                <span class="input-label">Meeting InFo</span>
-                <input ng-model="meeting.description" type="text">
+                <span class="input-label">Event InFo</span>
+                <input ng-model="events.description" type="text">
             </label>
 
             <label class="item item-select">
@@ -25,24 +25,27 @@
                       <input type="search" placeholder="Search">
                     </label>
             </label>
+
+            <button id="createDefaultPage-button2" type="submit" >Create</button>
+            <button ng-click="cancle()">Clear</button>
+
         </form>
-<<<<<<< HEAD
-        <button id="createDefaultPage-button2" class="button button-positive  button-block">Create</button>
-        <button id="createDefaultPage-button1" style="font-weight:600;" class="button button-positive  button-block">Clear</button>
-=======
+
+
         <button class="button" ng-click="show()">Show Action Sheet</button>
         <button class="button" ng-click="clear()">Clear Action Sheet</button>
-        <h3 ng-bind="meeting.name"></h3>
-        <p ng-bind="meeting.host"></p>
-        <p ng-bind="meeting.time"></p>
-        <p ng-bind="meeting.description"></p>
+        <h3 ng-bind="event.name"></h3>
+        <p ng-bind="event.host"></p>
+        <p ng-bind="event.time"></p>
+        <p ng-bind="event.description"></p>
 
         <!-- <button id="createDefaultPage-button2" class="button button-positive  button-block">Create</button> -->
         <!-- <button style="font-weight:600;" class="button button-positive ng-click="clear()" button-block">Clear</button> -->
 
-                    <div id='title'><h2>你觉得adom是帅哥吗？</h2></div>
-            <button id='yes' ng-click='voteOptionOne()' class='btn btn-info'>是:<span ng-bind="vote.option1"></span></button>
-            <button id='no'  ng-click='voteOptionTwo()' class='btn btn-info'>不是: <span ng-bind="vote.option2">票</button>
->>>>>>> df9bf8fffe28d28d432818d371e4bcef5e7943f6
+        <div id='title'><h2>你觉得adom是帅哥吗？</h2></div>
+        <button id='yes' ng-click='voteOptionOne()' class='btn btn-info'>是:<span ng-bind="vote.option1"></span></button>
+        <button id='no'  ng-click='voteOptionTwo()' class='btn btn-info'>不是: <span ng-bind="vote.option2">票</button>
+
     </ion-content>
 </ion-view>
+

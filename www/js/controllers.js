@@ -1,57 +1,146 @@
 
 angular.module('app.controllers', ['app.services','firebase'])
 
-.controller('createDefaultPageCtrl', ['$scope','$firebaseObject','$log',function($scope,$firebaseObject){
-                var ref = new Firebase("https://tuttut.firebaseio.com");
+.controller('createDefaultPageCtrl',['$scope','$firebaseObject',function($scope,$firebaseObject){
+  var ref = new Firebase("https://fionatutprac.firebaseio.com/");
+  // https://tuttut.firebaseio.com
 
-//this is a example to set a value which will over write the
+  var eventsRef = ref.child("events");
 
-var usersRef = ref.child("Fiona");
-usersRef.set({
-  alanisawesome: {
-    date_of_birth: "June 23, 1912",
-    full_name: "Alan Turing"
-  },
-  gracehop: {
-    date_of_birth: "December 9, 1906",
-    full_name: "Grace Hopper"
-  }
-});
+  // eventsRef.set({
+  //   alanisawesome: {
+  //     date_of_birth: "June 23, 1912",
+  //     full_name: "Alan Turing"
+  //   },
+  //   gracehop: {
+  //     date_of_birth: "December 9, 1906",
+  //     full_name: "Grace Hopper"
+  //   }
+  // });
 
-
-                $scope.vote = $firebaseObject(ref);
-				// $scope.vote.$loaded()
-				//   .then(function() {
-				//     $scope.vote.option1 = $scope.vote.option1;
-				//     $scope.vote.option2 = $scope.vote.option2;
-				//   })
-				//   .catch(function(err) {
-				//     console.error(err);
-				//   });
+  // console.log("&&&",JSON.stringify(eventsRef));
 
 
-                // $scope.vote.option1 = $scope.vote.option1;
-                // $scope.vote.option2 = $scope.vote.option2;
-                $scope.voteOptionOne = function(){
-                  $scope.vote.option1 += 1;
-                  // console.log($scope.vote.option1);
-                  $scope.vote.$save('option1');
-                };
-                $scope.voteOptionTwo = function(){
-                  $scope.vote.option2 += 1;
-                  $scope.vote.$save('option2');
-                };
-                // $scope.vote.$on('change',function(){
-                //   // $('#panel').animate({backgroundColor: "#F9D56E"}).animate({backgroundColor: "#FAFAFA"});
-                // });
-           }])
+  var s4 = function() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+
+  var guid = function() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  };
 
 
-.controller('listDefaultPageCtrl', function($scope) {
+    // UID
+    // if (!$scope.tt.user || !$scope.tt.user.id) {
+    //   var uid = guid();
+    //   $scope.tt.user = {id: uid};
+    // }
 
-})
+    // GID
+    // if (!$scope.tt.gid) {
+    //   var gid = guid();
+    //   $scope.tt.gid = gid;
+    // }
+
+    // $rootScope.isLandingPage = function() {
+    //   return $location.path() !== '/';
+    // };
+
+    // // Redirect with a GID to create new event
+    // $scope.redirectToCreatenewEvent = function() {
+    //   if ($location.path() === '/events/new' || $location.path() === '/events/new') {
+    //     $scope.tt.gid = guid();
+    //     $location.path('/events/new' + $scope.tt.gid);
+    //     $location.replace();
+    //   }
+    // };
+
+  $scope.cancle = function() {
+    console.log("cancle called");
+  };
+
+  $scope.createEvent = function(events) {
+    $scope.events = eventsRef.push();
+    eventsRef.set({
+      name: events.name
+    });
+    // $scope.newEvent = $firebaseObject(eventsRef);
+    console.log("create event called");
+    // $scope.newEvent.name=$scope.newEvent.name;
+    // console.log("*************",$scope.newEvent);
+
+    // $scope.newEvent.push();
+  //   postsRef.push().set({
+  //   author: "alanisawesome",
+  //   title: "The Turing Machine"
+  // });
+
+    // newEvent.gid = guid();
+    // newEvent.name=events.name;
+    // newEvent.host = events.host;
+    // newEvent.created = new Date().getTime();
+    // newEvent.text = "haaaaaa";
+    // $scope.setNewEvent(newEvent);
+    // $location.path('/list/' + newEvent.gid);
+
+    // $location.replace();
+  };
+
+    // console.log("$$$$$$$$$$$$$$$$$$44",JSON.stringify(eventsRef));
+
+
+  // $scope.setNewEvent = function(newEvent) {
+  //   console.log("enter setNewEvent");
+  //   ref.child('/events/').push(newEvent);
+  // };
+
+
+
+  // $scope.vote = $firebaseObject(ref);
+  // $scope.vote.$loaded()
+  //   .then(function() {
+  //     $scope.vote.option1 = $scope.vote.option1;
+  //     $scope.vote.option2 = $scope.vote.option2;
+  //   })
+  //   .catch(function(err) {
+  //     console.error(err);
+  //   });
+
+
+  // $scope.vote.option1 = $scope.vote.option1;
+  // $scope.vote.option2 = $scope.vote.option2;
+  // $scope.voteOptionOne = function(){
+  // // $scope.vote.option1 += 1;
+  // console.log("$scope.vote.option1");
+  // // $scope.vote.$save('option1');
+  // };
+  // $scope.voteOptionTwo = function(){
+  // $scope.vote.option2 += 1;
+  // $scope.vote.$save('option2');
+  // };
+  // $scope.vote.$on('change',function(){
+  //   // $('#panel').animate({backgroundColor: "#F9D56E"}).animate({backgroundColor: "#FAFAFA"});
+  // });
+}])
+
+
+.controller('listDefaultPageCtrl', ['$firebaseObject',function($scope,$firebaseObject) {
+  var ref = new Firebase("https://fionatutprac.firebaseio.com/");
+  // https://tuttut.firebaseio.com
+
+  //this is a example to set a value which will over write the
+
+  var eventsRef = ref.child("events");
+
+
+  $scope.vote = $firebaseObject(ref/events);
+
+}])
 
 .controller('meDefaultPageCtrl', function($scope) {
+  $scope.try1 = function(){
+    console.log("try1 called");
+  }
 
 })
 

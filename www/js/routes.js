@@ -22,7 +22,7 @@ angular.module('app.routes', [])
 
 
     .state('tabsController.createDefaultPage', {
-      url: '/page2',
+      url: '/events/new',
       views: {
         'tab1': {
           templateUrl: 'templates/createDefaultPage.html',
@@ -32,7 +32,7 @@ angular.module('app.routes', [])
     })
 
     .state('tabsController.listDefaultPage', {
-      url: '/page3',
+      url: '/list',
       views: {
         'tab2': {
           templateUrl: 'templates/listDefaultPage.html',
@@ -40,6 +40,16 @@ angular.module('app.routes', [])
         }
       }
     })
+
+    // .state('tabsController.listDefaultPage', {
+    //   url: '/list/:gid',
+    //   views: {
+    //     'tab2': {
+    //       templateUrl: 'templates/listDefaultPage.html',
+    //       controller: 'listDefaultPageCtrl'
+    //     }
+    //   }
+    // })
 
     .state('tabsController.meDefaultPage', {
       url: '/page4',
@@ -79,7 +89,7 @@ angular.module('app.routes', [])
       }
     })
 
-$urlRouterProvider.otherwise('/page1/page2')
+$urlRouterProvider.otherwise('/page1/events/new')
 
 
 
