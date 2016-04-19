@@ -18,6 +18,8 @@ angular.module('app.controllers', ['app.services','firebase'])
     candidates: [],
   };
 
+  var tempCandidates=[];
+
   var index = Math.floor(Math.random()*200);
 
   $scope.timeChoose = function(){
@@ -117,13 +119,15 @@ angular.module('app.controllers', ['app.services','firebase'])
     }
     else{
 
+      console.log("%%^&^^%$####", tempCandidates);
+
     eventsRef.child(index++).set({
      name: events.name,
         comments: '',
         info: events.info,
         time: events.time,
         hostname: events.host,
-        candidates: ''
+        candidates: tempCandidates,
     });
 
       $scope.events.name='';
@@ -142,13 +146,13 @@ angular.module('app.controllers', ['app.services','firebase'])
   $scope.addCandidates = function(){
     console.log("candidates");
 
-    // var k;
+    var k;
 
-    // k = $scope.events.candidates;
-    // console.log("KKKKKKKKKKK ",k);
+    k = $scope.events.candidates;
+    console.log("KKKKKKKKKKK ",k);
 
-    // candidates.push(k);
-    // console.log("candidates*****", candidates);
+    tempCandidates.push(k);
+    console.log("tempCandidates*****", tempCandidates);
 
 
 
