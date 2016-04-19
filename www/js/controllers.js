@@ -1,9 +1,12 @@
 
 angular.module('app.controllers', ['app.services','firebase'])
 
-.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker){
+.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker){
   var ref = new Firebase("https://fionatutprac.firebaseio.com/");
   // https://tuttut.firebaseio.com
+  ref.on('value', function(data) {
+    $scope.index = data.val().length;
+  })
 
   var eventsRef = ref.child("events");
 
@@ -12,26 +15,54 @@ angular.module('app.controllers', ['app.services','firebase'])
     host: "",
     info: "",
     time: "",
+    candidates: [],
   };
+
+  var index = Math.floor(Math.random()*200);
 
   $scope.timeChoose = function(){
     console.log("time choose");
-    var options = {
-      date: new Date(),
-      mode: 'date', // or 'time'
-      minDate: new Date() - 10000,
-      allowOldDates: true,
-      allowFutureDates: false,
-      doneButtonLabel: 'DONE',
-      doneButtonColor: '#F2F3F4',
-      cancelButtonLabel: 'CANCEL',
-      cancelButtonColor: '#000000'
-    };
+    //  var ipObj1 = {
+    //   callback: function (val) {  //Mandatory
+    //     console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+    //   },
+    //   disabledDates: [            //Optional
+    //     new Date(2016, 2, 16),
+    //     new Date(2015, 3, 16),
+    //     new Date(2015, 4, 16),
+    //     new Date(2015, 5, 16),
+    //     new Date('Wednesday, August 12, 2015'),
+    //     new Date("08-16-2016"),
+    //     new Date(1439676000000)
+    //   ],
+    //   from: new Date(2012, 1, 1), //Optional
+    //   to: new Date(2016, 10, 30), //Optional
+    //   inputDate: new Date(),      //Optional
+    //   mondayFirst: true,          //Optional
+    //   disableWeekdays: [0],       //Optional
+    //   closeOnSelect: false,       //Optional
+    //   templateType: 'popup'       //Optional
+    // };
 
-    $cordovaDatePicker.show(options).then(function(date){
-        alert(date);
-        $scope.events.time = date;
-    });
+    // $scope.openDatePicker = function(){
+    //   // ionicDatePicker.openDatePicker(ipObj1);
+    // };
+    // var options = {
+    //   date: new Date(),
+    //   mode: 'date', // or 'time'
+    //   minDate: new Date() - 10000,
+    //   allowOldDates: true,
+    //   allowFutureDates: false,
+    //   doneButtonLabel: 'DONE',
+    //   doneButtonColor: '#F2F3F4',
+    //   cancelButtonLabel: 'CANCEL',
+    //   cancelButtonColor: '#000000'
+    // };
+
+    // $cordovaDatePicker.show(options).then(function(date){
+    //     alert(date);
+    //     $scope.events.time = date;
+    // });
 
   }
 
@@ -70,12 +101,13 @@ angular.module('app.controllers', ['app.services','firebase'])
         title:"Message",
         template:"Event Host is Required!"
       });
-    }else if(events.time.length== 0){
-      var arlterPop = $ionicPopup.alert({
-        title:"Message",
-        template:"Event Time is Required!"
-      });
     }
+    // else if(events.time.length== 0){
+    //   var arlterPop = $ionicPopup.alert({
+    //     title:"Message",
+    //     template:"Event Time is Required!"
+    //   });
+    // }
     else if(events.info.length== 0){
       var arlterPop = $ionicPopup.alert({
         title:"Message",
@@ -84,14 +116,15 @@ angular.module('app.controllers', ['app.services','firebase'])
 
     }
     else{
-      eventsRef.push({
-        name: events.name,
+
+    eventsRef.child(index++).set({
+     name: events.name,
         comments: '',
         info: events.info,
         time: events.time,
         hostname: events.host,
         candidates: ''
-      });
+    });
 
       $scope.events.name='';
       $scope.events.host='';
@@ -108,6 +141,18 @@ angular.module('app.controllers', ['app.services','firebase'])
 
   $scope.addCandidates = function(){
     console.log("candidates");
+
+    // var k;
+
+    // k = $scope.events.candidates;
+    // console.log("KKKKKKKKKKK ",k);
+
+    // candidates.push(k);
+    // console.log("candidates*****", candidates);
+
+
+
+
   }
 }])
 
