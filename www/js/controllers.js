@@ -1,134 +1,128 @@
 
 angular.module('app.controllers', ['app.services','firebase'])
 
-.controller('createDefaultPageCtrl',['$scope','$firebaseObject',function($scope,$firebaseObject){
-  var ref = new Firebase("https://tuttut.firebaseio.com");
-  // https://tuttut.firebaseio.com https://fionatutprac.firebaseio.com/
+.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker){
+  var ref = new Firebase("https://fionatutprac.firebaseio.com/");
+  // https://tuttut.firebaseio.com
 
   var eventsRef = ref.child("events");
 
-
-  var s4 = function() {
-      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-    };
-
-  var guid = function() {
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  $scope.events = {
+    name: "",
+    host: "",
+    info: "",
+    time: "",
   };
 
+  $scope.timeChoose = function(){
+    console.log("time choose");
+    var options = {
+      date: new Date(),
+      mode: 'date', // or 'time'
+      minDate: new Date() - 10000,
+      allowOldDates: true,
+      allowFutureDates: false,
+      doneButtonLabel: 'DONE',
+      doneButtonColor: '#F2F3F4',
+      cancelButtonLabel: 'CANCEL',
+      cancelButtonColor: '#000000'
+    };
 
-    // UID
-    // if (!$scope.tt.user || !$scope.tt.user.id) {
-    //   var uid = guid();
-    //   $scope.tt.user = {id: uid};
-    // }
+    $cordovaDatePicker.show(options).then(function(date){
+        alert(date);
+        $scope.events.time = date;
+    });
 
-    // GID
-    // if (!$scope.tt.gid) {
-    //   var gid = guid();
-    //   $scope.tt.gid = gid;
-    // }
-
-    // $rootScope.isLandingPage = function() {
-    //   return $location.path() !== '/';
-    // };
-
-    // // Redirect with a GID to create new event
-    // $scope.redirectToCreatenewEvent = function() {
-    //   if ($location.path() === '/events/new' || $location.path() === '/events/new') {
-    //     $scope.tt.gid = guid();
-    //     $location.path('/events/new' + $scope.tt.gid);
-    //     $location.replace();
-    //   }
-    // };
+  }
 
   $scope.cancle = function() {
     console.log("cancle called");
+    var confirmPopup = $ionicPopup.confirm({
+             title: 'Confirmation',
+             template: 'Are you sure you want to quit?'
+           });
+           confirmPopup.then(function(res) {
+             if(res) {
+              $scope.events.name='';
+              $scope.events.host='';
+              $scope.events.info='';
+              $scope.events.time='';
+
+              $state.go('tabsController.listDefaultPage');
+
+
+             }else{
+              }
+            });
+
   };
 
   $scope.createEvent = function(events) {
-    events = eventsRef.push().set({
-      name: events.name,
-      comments: '',
-      info: events.info,
-      time: events.time,
-      hostname: events.host,
-      participants: '',
 
-    });
-    // eventsRef.set({
-    //   name: events.name
-    // });
-    // $scope.newEvent = $firebaseObject(eventsRef);
-    console.log("create event called");
-    // $scope.newEvent.name=$scope.newEvent.name;
-    // console.log("*************",$scope.newEvent);
+    if(events.name.length== 0){
+      var arlterPop = $ionicPopup.alert({
+        title:"Message",
+        template:"Event Name is Required!"
+      });
 
-    // $scope.newEvent.push();
-  //   postsRef.push().set({
-  //   author: "alanisawesome",
-  //   title: "The Turing Machine"
-  // });
+    }else if(events.host.length== 0){
+      var arlterPop = $ionicPopup.alert({
+        title:"Message",
+        template:"Event Host is Required!"
+      });
+    }else if(events.time.length== 0){
+      var arlterPop = $ionicPopup.alert({
+        title:"Message",
+        template:"Event Time is Required!"
+      });
+    }
+    else if(events.info.length== 0){
+      var arlterPop = $ionicPopup.alert({
+        title:"Message",
+        template:"Event Info is Required!"
+      });
 
-    // newEvent.gid = guid();
-    // newEvent.name=events.name;
-    // newEvent.host = events.host;
-    // newEvent.created = new Date().getTime();
-    // newEvent.text = "haaaaaa";
-    // $scope.setNewEvent(newEvent);
-    // $location.path('/list/' + newEvent.gid);
+    }
+    else{
+      eventsRef.push({
+        name: events.name,
+        comments: '',
+        info: events.info,
+        time: events.time,
+        hostname: events.host,
+        candidates: ''
+      });
 
-    // $location.replace();
+      $scope.events.name='';
+      $scope.events.host='';
+      $scope.events.info='';
+      $scope.events.time='';
+
+
+
+      $state.go('tabsController.listDefaultPage');
+    }
+
+
   };
 
-    // console.log("$$$$$$$$$$$$$$$$$$44",JSON.stringify(eventsRef));
-
-
-  // $scope.setNewEvent = function(newEvent) {
-  //   console.log("enter setNewEvent");
-  //   ref.child('/events/').push(newEvent);
-  // };
-
-
-
-  // $scope.vote = $firebaseObject(ref);
-  // $scope.vote.$loaded()
-  //   .then(function() {
-  //     $scope.vote.option1 = $scope.vote.option1;
-  //     $scope.vote.option2 = $scope.vote.option2;
-  //   })
-  //   .catch(function(err) {
-  //     console.error(err);
-  //   });
-
-
-  // $scope.vote.option1 = $scope.vote.option1;
-  // $scope.vote.option2 = $scope.vote.option2;
-  // $scope.voteOptionOne = function(){
-  // // $scope.vote.option1 += 1;
-  // console.log("$scope.vote.option1");
-  // // $scope.vote.$save('option1');
-  // };
-  // $scope.voteOptionTwo = function(){
-  // $scope.vote.option2 += 1;
-  // $scope.vote.$save('option2');
-  // };
-  // $scope.vote.$on('change',function(){
-  //   // $('#panel').animate({backgroundColor: "#F9D56E"}).animate({backgroundColor: "#FAFAFA"});
-  // });
+  $scope.addCandidates = function(){
+    console.log("candidates");
+  }
 }])
 
 
+
 .controller('listDefaultPageCtrl', ['$firebaseObject',function($scope,$firebaseObject) {
-  var ref = new Firebase("https://fionatutprac.firebaseio.com/");
+  // var ref = new Firebase("https://fionatutprac.firebaseio.com/");
   // https://tuttut.firebaseio.com
 
   //this is a example to set a value which will over write the
 
-  var eventsRef = ref.child("events");
+  // var eventsRef = ref.child("events");
 
 
-  $scope.vote = $firebaseObject(ref/events);
+  // $scope.vote = $firebaseObject(ref/events);
 
 }])
 
