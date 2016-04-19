@@ -1,9 +1,9 @@
 angular.module('app.controllers', ['firebase'])
-  
+
 .controller('createDefaultPageCtrl', ['$scope','$firebaseObject','$log',function($scope,$firebaseObject){
                 var ref = new Firebase("https://tuttut.firebaseio.com");
 
-//this is a example to set a value which will over write the 
+//this is a example to set a value which will over write the
 
 var usersRef = ref.child("Fiona");
 usersRef.set({
@@ -44,24 +44,58 @@ usersRef.set({
                 //   // $('#panel').animate({backgroundColor: "#F9D56E"}).animate({backgroundColor: "#FAFAFA"});
                 // });
            }])
-   
+
 .controller('listDefaultPageCtrl', function($scope) {
 
 })
-   
+
 .controller('meDefaultPageCtrl', function($scope) {
 
 })
-         
+
 .controller('signupCtrl', function($scope) {
 
-})
-   
-.controller('loginCtrl', function($scope) {
+  // var email=document.getElementById('useremail').value;
+  // var password=document.getElementById('password').value;
+
+  $scope.userau={
+    email:"",
+    password:"",
+    name:""
+  };
+  var ref = new Firebase("https://tuttut.firebaseio.com");
+    $scope.signUp=function(){
+
+      ref.createUser({
+        email: $scope.userau.email,
+        password: $scope.userau.password
+      }, function(error, userData) {
+        if (error) {
+          console.log("Error creating user:", error);
+        } else {
+          console.log("Successfully created user account with uid:", userData.uid);
+        }
+      });
+
+      var userRef = ref.child("users");
+
+    // we can also chain the two calls together
+      userRef.push({
+      userfullname: $scope.userau.name
+    });
+  }
 
 })
-   
+
+.controller('loginCtrl', function($scope) {
+
+  $scope.logininfo={
+    email:"",
+    password:""
+  };
+
+})
+
 .controller('liveCtrl', function($scope) {
 
 })
- 
