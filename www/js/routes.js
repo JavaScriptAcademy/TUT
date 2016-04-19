@@ -59,7 +59,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.live', {
-    url: '/:foo',
+    url: '#/:foo',
     views: {
       'tab2': {
         templateUrl: 'templates/live.html',

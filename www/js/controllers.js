@@ -4,11 +4,12 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
 
            }])
    
-.controller('listDefaultPageCtrl', ['$scope','$firebaseObject',function($scope,$firebaseObject){
+.controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
         
         var ref = new Firebase("https://tuttut.firebaseio.com");           
         ref.child('events').once('value', function(data) {
           $scope.eventsList = data.val();
+          $state.go($state.current, {}, {reload: true}); 
         });
 
 }])
@@ -25,7 +26,20 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
 
 })
    
-.controller('liveCtrl', function($scope,$state, $stateParams) {
+.controller('liveCtrl', function($scope,$state, $stateParams,$firebaseArray,$firebaseObject) {
+
+
+
+    $scope.config = {
+        visible: true, // default: true
+        extended: false, // default: false
+        disabled: false, // default: false
+        refreshDataOnly: true, // default: true
+        deepWatchOptions: true, // default: true
+        deepWatchData: true, // default: true
+        deepWatchDataDepth: 2, // default: 2
+        debounce: 10 // default: 10
+    };
    $scope.options = {
     chart: {
         type: 'discreteBarChart',
@@ -53,29 +67,71 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
      }
   };
 
-   $scope.state = $state.current;
-   $scope.params = $stateParams; 
-   $scope.routingIndex = $stateParams.foo;
+    $scope.state = $state.current;
+    $scope.params = $stateParams; 
+    $scope.routingIndex = $stateParams.foo;
 
-        var ref = new Firebase("https://tuttut.firebaseio.com");           
-        ref.child('events').once('value', function(data) {
-          $scope.thisObject = data.val()[$scope.routingIndex];
-          $scope.data = [{
+    var ref = new Firebase("https://tuttut.firebaseio.com/events");           
+    ref.once('value', function(data) {
+      $scope.comments = data.val()[$scope.routingIndex]['comments'];
+      $scope.participants = data.val()[$scope.routingIndex]['participants'];
+      $scope.data = [{
+        key: "Cumulative Return",
+        values: []
+        }];
+      $scope.participants.forEach(function(key, value) {
+        var name, vote;
+        name = Object.keys(key);
+        vote = key[name];
+        console.log('name: ',name,'vote : ',vote);
+        $scope.data[0].values.push({ "label" : name , "value" : vote });
+      });
+    });
+
+    ref.on('value', function(data) {
+      $scope.participants = data.val()[$scope.routingIndex]['participants'];
+      $scope.data = [{
             key: "Cumulative Return",
-            values: [
-                { "label" : "A" , "value" : -29.765957771107 },
-                { "label" : "B" , "value" : 0 },
-                { "label" : "C" , "value" : 32.807804682612 },
-                { "label" : "D" , "value" : 196.45946739256 },
-                { "label" : "E" , "value" : 0.19434030906893 },
-                { "label" : "F" , "value" : -98.079782601442 },
-                { "label" : "G" , "value" : -13.925743130903 },
-                { "label" : "H" , "value" : -5.1387322875705 }
-                ]
+            values: []
             }];
-            //[{key: "Cumulative Return", values : {$scope.thisObject['participants']}];
+      $scope.participants.forEach(function(key, value) {
+        var name, vote;
+        name = Object.keys(key);
+        vote = key[name];
+        console.log('name: ',name,'vote : ',vote);
+        $scope.data[0].values.push({ "label" : name , "value" : vote });
+      });
+      $state.go($state.current, {}, {reload: true}); 
 
-        });
+    });
 
-})
+ 
+      var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
+      z.on('value', function(data) {
+        $scope.things = data.val();
+        $scope.vote = function(num) {
+          var key = Object.keys(data.val()[num])
+          var value = data.val()[num][key];
+          var tobe = {[key]:value+1}
+          z.child(num+'/').update(tobe)
+
+        }
+        console.log('data :',data.val().length);
+
+        // var key = Object.keys(data.val()[0])
+        // console.log('key is : ',key);
+        // var value = data.val()[0][key];
+        // console.log('value is :',value);
+
+
+        // var tobe = {[key]:value+1}
+        // z.child('0/').update(tobe)
+      })
+
+
+
+
+
+
+});
  
