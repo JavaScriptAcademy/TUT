@@ -1,5 +1,31 @@
 <ion-view title="Live" id="page7">
     <ion-content padding="true" class="has-header">
 
+
+     <nvd3 options="options"
+      data="data"
+      config="config"
+      events="events"
+      api="api"
+      on-ready="callback"></nvd3>
+<div style="
+    margin: auto auto;
+    width: 80%">
+<div  class="button button-positive" style="margin-left: {{indent}}px;" ng-click="vote($index)" ng-repeat="thing in things">{{thing | getName}}</div>
+
+</div>
+
+<h3>Comments:</h3>
+  <div class="item item-input-inset">
+    <label class="item-input-wrapper">
+      <input id="fuck" type="text" placeholder="Comments">
+    </label>
+    <div class="button button-small" ng-click="addcomment()">
+      Submit
+    </div>
+  </div>
+<ion-list>
+    <ion-item ng-repeat="comment in comments">{{comment}}</ion-item>
+</ion-list>
     </ion-content>
 </ion-view>

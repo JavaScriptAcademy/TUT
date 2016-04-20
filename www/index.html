@@ -5,8 +5,15 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
+    <link rel="stylesheet" href="lib/ionic/css/nv.d3.css">
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <!-- path to ionic / angularjs files-->
+    <!-- <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script> -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <!-- <script src="slib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script> -->
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -15,20 +22,24 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
     <script type="text/javascript" src="lib/firebase.js"></script>
-    <script type="text/javascript" src="lib/angular.min.js"></script>
+
     <script type="text/javascript" src="lib/angularfire.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/filter.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/routes.js"></script>
     <script src="js/services.js"></script>
     <script src="js/directives.js"></script>
+    <script src="js/d3.min.js" charset="utf-8"></script>
+    <script src='js/nv.d3.min.js'></script>
+    <script src='js/angular-nvd3.min.js'></script>
 
     <!-- Only required for Tab projects w/ pages in multiple tabs
     <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
     -->
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7" ng-controller="indexCtrl">
+  <body ng-app="app" animation="slide-left-right-ios7" >
   <div>
     <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
         <ion-side-menu-content>
