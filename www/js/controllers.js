@@ -90,7 +90,7 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
         console.log('name: ',name,'vote : ',vote);
         $scope.data[0].values.push({ "label" : name , "value" : vote });
       });
-      $state.go($state.current, {}, {reload: true}); 
+      // $state.go($state.current, {}, {reload: true}); 
 
     });
  
