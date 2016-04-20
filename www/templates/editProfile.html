@@ -1,0 +1,27 @@
+<ion-view title="Me Default Page" id="page4">
+    <ion-content padding="true" class="has-header">
+        <h2 id="meDefaultPage-heading1" style="color:#000000;text-align:center;">Profile</h2>
+
+        <ion-list>
+
+            <label class="item item-input">
+                <span class="input-label">Gender</span>
+                <input type="text" ng-model="userinfo.gender" placeholder="Gender">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Cell Phone</span>
+                <input type="text" ng-model="userinfo.phonenumber" placeholder="Cell phone">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">Company</span>
+                <input type="text" ng-model="userinfo.company" placeholder="Company">
+            </label>
+            <ion-item><button class="button button-calm  button-block" ng-click="EditProfile()">Update</button></ion-item>
+
+
+        </ion-list>
+
+
+    </ion-content>
+</ion-view>
