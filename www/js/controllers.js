@@ -140,9 +140,10 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       $scope.events.info='';
       $scope.events.time='';
       tempParticipants = [];
+      $scope.temp.currentParticipant = '';
 
 
-      $state.go('tabsController.listDefaultPage');
+      $state.go('tabsController.listDefaultPage',{},{reload:true});
     }
 
 
@@ -183,7 +184,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 .controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
 
         var ref = new Firebase("https://tuttut.firebaseio.com/events");
-        ref.once('value', function(data) {
+        ref.on('value', function(data) {
           $scope.eventsList = data.val();
           $state.go($state.current, {}, {reload: true});
         });
