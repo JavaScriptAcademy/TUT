@@ -1,8 +1,52 @@
-
-
 angular.module('app.controllers', ['app.services','firebase','nvd3'])
+// .controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', 'ionicToast',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,ionicToast){
 
-.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', 'ionicToast',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,ionicToast){
+
+.controller('meDefaultPageCtrl', function($scope,$state,userService) {
+
+  $scope.userinfo={
+     name:"",
+     gender:"Female",
+     phonenumber:"xxxx",
+     company:"test"
+  }
+
+
+   var userIn=userService.getUser();
+   console.log('see user', userIn);
+   if(userIn){
+     $scope.userinfo.name=userIn.userfullname;
+     $scope.userinfo.gender=userIn.gender;
+     $scope.userinfo.phonenumber=userIn.phonenumber;
+     $scope.userinfo.company=userIn.company;
+   }
+
+
+
+
+   $scope.gotoEditProfile=function(){
+    $state.go('tabsController.editProfile');
+   }
+
+   $scope.gotoResetPassword=function(){
+    $state.go('tabsController.resetPassword');
+   }
+
+   $scope.logout=function(){
+     var ref = new Firebase("https://tuttut.firebaseio.com");
+     var authUser=userService.getAuUser();
+    if(authUser){
+      ref.unauth();}
+
+    console.log("log out")
+    $state.go('login');
+   }
+ })
+
+
+
+
+.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state',function($scope,$firebaseObject,$ionicPopup,$state){
   var ref = new Firebase("https://tuttut.firebaseio.com");
   // https://tuttut.firebaseio.com https://fionatutprac.firebaseio.com/
   // ref.on('value', function(data) {
@@ -27,51 +71,51 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
   // var index = Math.floor(Math.random()*200);
 
-  $scope.timeChoose = function(){
-    console.log("time choose");
-    //  var ipObj1 = {
-    //   callback: function (val) {  //Mandatory
-    //     console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-    //   },
-    //   disabledDates: [            //Optional
-    //     new Date(2016, 2, 16),
-    //     new Date(2015, 3, 16),
-    //     new Date(2015, 4, 16),
-    //     new Date(2015, 5, 16),
-    //     new Date('Wednesday, August 12, 2015'),
-    //     new Date("08-16-2016"),
-    //     new Date(1439676000000)
-    //   ],
-    //   from: new Date(2012, 1, 1), //Optional
-    //   to: new Date(2016, 10, 30), //Optional
-    //   inputDate: new Date(),      //Optional
-    //   mondayFirst: true,          //Optional
-    //   disableWeekdays: [0],       //Optional
-    //   closeOnSelect: false,       //Optional
-    //   templateType: 'popup'       //Optional
-    // };
+  // $scope.timeChoose = function(){
+  //   console.log("time choose");
+  //   //  var ipObj1 = {
+  //   //   callback: function (val) {  //Mandatory
+  //   //     console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+  //   //   },
+  //   //   disabledDates: [            //Optional
+  //   //     new Date(2016, 2, 16),
+  //   //     new Date(2015, 3, 16),
+  //   //     new Date(2015, 4, 16),
+  //   //     new Date(2015, 5, 16),
+  //   //     new Date('Wednesday, August 12, 2015'),
+  //   //     new Date("08-16-2016"),
+  //   //     new Date(1439676000000)
+  //   //   ],
+  //   //   from: new Date(2012, 1, 1), //Optional
+  //   //   to: new Date(2016, 10, 30), //Optional
+  //   //   inputDate: new Date(),      //Optional
+  //   //   mondayFirst: true,          //Optional
+  //   //   disableWeekdays: [0],       //Optional
+  //   //   closeOnSelect: false,       //Optional
+  //   //   templateType: 'popup'       //Optional
+  //   // };
 
-    // $scope.openDatePicker = function(){
-    //   // ionicDatePicker.openDatePicker(ipObj1);
-    // };
-    // var options = {
-    //   date: new Date(),
-    //   mode: 'date', // or 'time'
-    //   minDate: new Date() - 10000,
-    //   allowOldDates: true,
-    //   allowFutureDates: false,
-    //   doneButtonLabel: 'DONE',
-    //   doneButtonColor: '#F2F3F4',
-    //   cancelButtonLabel: 'CANCEL',
-    //   cancelButtonColor: '#000000'
-    // };
+  //   // $scope.openDatePicker = function(){
+  //   //   // ionicDatePicker.openDatePicker(ipObj1);
+  //   // };
+  //   // var options = {
+  //   //   date: new Date(),
+  //   //   mode: 'date', // or 'time'
+  //   //   minDate: new Date() - 10000,
+  //   //   allowOldDates: true,
+  //   //   allowFutureDates: false,
+  //   //   doneButtonLabel: 'DONE',
+  //   //   doneButtonColor: '#F2F3F4',
+  //   //   cancelButtonLabel: 'CANCEL',
+  //   //   cancelButtonColor: '#000000'
+  //   // };
 
-    // $cordovaDatePicker.show(options).then(function(date){
-    //     alert(date);
-    //     $scope.events.time = date;
-    // });
+  //   // $cordovaDatePicker.show(options).then(function(date){
+  //   //     alert(date);
+  //   //     $scope.events.time = date;
+  //   // });
 
-  }
+  // }
 
   $scope.cancle = function() {
     console.log("cancle called");
@@ -162,7 +206,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     $scope.temp.currentParticipant = "";
 
 
-    ionicToast.show('Added success.', 'middle', true, 2500);
+    // ionicToast.show('Added success.', 'middle', true, 2500);
 
     // $cordovaToast
     // .show('Here is a message', 'long', 'center')
@@ -183,6 +227,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
 .controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
 
+
         var ref = new Firebase("https://tuttut.firebaseio.com/events");
         ref.on('value', function(data) {
           $scope.eventsList = data.val();
@@ -192,18 +237,209 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 }])
 
 
-.controller('meDefaultPageCtrl', function($scope) {
+
+
+
+
+
+
+
+.controller('signupCtrl', function($scope,$state,$ionicPopup) {
+
+  // var email=document.getElementById('useremail').value;
+  // var password=document.getElementById('password').value;
+
+  $scope.userau={
+    email:"",
+    password:"",
+    name:""
+  };
+  var ref = new Firebase("https://tuttut.firebaseio.com");
+    $scope.signUp=function(){
+
+      ref.createUser({
+        email: $scope.userau.email,
+        password: $scope.userau.password
+      }, function(error, userData) {
+        if (error) {
+          var alertPop=$ionicPopup.alert({
+        title:"signUp Failed!",
+        template:"signUp Failed! "+error
+      });
+          console.log("Error creating user:", error);
+        } else {
+           var userRef = ref.child("users");
+
+        // we can also chain the two calls together
+          userRef.child(userData.uid).set({
+          userfullname: $scope.userau.name,
+          gender:"Female",
+          phonenumber:"xxxx",
+          company:"test"
+        }, function(error){
+          if(error){
+           var alertPop=$ionicPopup.alert({
+             title:"signUp Failed!",
+             template:"signUp Failed! "+error
+           });
+         }
+       });
+
+
+         var alertPop=$ionicPopup.alert({
+          title:"signUp Successfully!",
+          template:"Successfully created user account! "
+        });
+         alertPop.then(function(res) {
+          $state.go('login');
+         });
+          console.log("Successfully created user account with uid:", userData.uid);
+
+        }
+      });
+
+
+  }
+
+})
+
+.controller('loginCtrl', function($scope,$state,$ionicPopup,userService) {
+
+  $scope.logininfo={
+    email:"",
+    password:""
+  };
+
+  var ref = new Firebase("https://tuttut.firebaseio.com");
+  var authUser=ref.getAuth();
+
+  if(authUser){
+     $state.go('tabsController.listDefaultPage');
+      console.log("Authenticated successfully with payload:");
+  }
+
+  $scope.login=function(){
+
+    ref.authWithPassword({
+    email    : $scope.logininfo.email,
+    password : $scope.logininfo.password
+  }, function(error, authData) {
+    if (error) {
+      var alertPop=$ionicPopup.alert({
+        title:"Login Failed!",
+        template:"Login Failed! "+error
+      });
+      console.log("Login Failed!", error);
+    } else {
+      userService.loadUser();
+      $state.go('tabsController.listDefaultPage');
+      console.log("Authenticated successfully with payload:", authData);
+    }
+  },
+      {
+      remember: "sessionOnly"
+    });
+  }
 
 
 })
 
-.controller('signupCtrl', function($scope) {
+
+.controller('editProfileCtrl', function($scope,$state,userService,$ionicPopup) {
+
+   $scope.userinfo={
+    gender:"",
+    phonenumber:"",
+    company:""
+  };
+
+   var authUser=userService.getAuUser();
+   var userIn=userService.getUser();
+   if(userIn){
+
+     $scope.userinfo.gender=userIn.gender;
+     $scope.userinfo.phonenumber=userIn.phonenumber;
+     $scope.userinfo.company=userIn.company;
+   }
+
+   $scope.EditProfile=function(){
+
+
+     // var userDb=userService.getUserDb();
+     // var currentUser=userDb.child(authUser.uid);
+       var currentUser = new Firebase("https://tuttut.firebaseio.com/users/"+authUser.uid);
+      currentUser.update({
+          "gender":$scope.userinfo.gender,
+          "phonenumber":$scope.userinfo.phonenumber,
+          "company":$scope.userinfo.company
+        }, function(error){
+           if(error){
+           var alertPop=$ionicPopup.alert({
+             title:"Update Failed!",
+             template:"Update Failed! "+error
+           });
+         }else{
+           userService.loadUser();
+           var alertPop=$ionicPopup.alert({
+             title:"Update Successfully!",
+             template:"Update Successfully!"
+           });
+          alertPop.then(function(res) {
+           $state.go('tabsController.meDefaultPage',{},{reload:true});
+         });
+
+         }
+        });
+   }
+})
+
+.controller('resetPasswordCtrl', function($scope,userService,$ionicPopup) {
+  $scope.userinfo={
+    curpassword:"",
+    newpassword:"",
+    newpassworda:""
+  };
+
+
+  $scope.resetPassword=function(){
+
+    var authUser=userService.getAuUser();
+    var ref = new Firebase("https://tuttut.firebaseio.com");
+
+    if($scope.userinfo.newpassword!==$scope.userinfo.newpassworda){
+      var alertPop=$ionicPopup.alert({
+             title:"Password Reset",
+             template:"Password is not match! "
+           });
+      return;
+    }
+
+    ref.changePassword({
+      email       : authUser.password.email,
+      oldPassword : $scope.userinfo.curpassword,
+      newPassword : $scope.userinfo.newpassword
+    }, function(error) {
+      if (error === null) {
+
+           var alertPop=$ionicPopup.alert({
+             title:"Password Reset",
+             template:"Password changed successfully! "
+           });
+
+        console.log("Password changed successfully");
+      } else {
+         var alertPop=$ionicPopup.alert({
+             title:"Password Reset",
+             template:"Password changed Failed! "+error
+           });
+
+        console.log("Error changing password:", error);
+      }
+    });
+  }
 
 })
 
-.controller('loginCtrl', function($scope) {
-
-})
 
 .controller('liveCtrl', function($scope,$state, $stateParams,$firebaseArray,$firebaseObject) {
 
@@ -257,7 +493,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       var data = $firebaseArray(y)
       var toadd = document.querySelectorAll('#fuck')[0].value;
       console.log('added comment',toadd);
-      data.$add(toadd)
+      data.$add(toadd);
+      document.querySelectorAll('#fuck')[0].value = ''
     }
 
     ref.on('value', function(data) {
@@ -283,6 +520,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
     z.on('value', function(data) {
       $scope.things = data.val();
+      $scope.indent =80/data.val().length;
       $scope.vote = function(num) {
         var key = Object.keys(data.val()[num])
         var value = data.val()[num][key];

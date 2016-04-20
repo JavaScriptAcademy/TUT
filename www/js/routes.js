@@ -96,4 +96,27 @@ $urlRouterProvider.otherwise('/page1/events/new')
 
 
 
+.state('tabsController.editProfile', {
+    url: '/page11',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/editProfile.html',
+        controller: 'editProfileCtrl'
+      }
+    }
+  })
+.state('tabsController.resetPassword', {
+    url: '/page12',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/resetPassword.html',
+        controller: 'resetPasswordCtrl'
+      }
+    }
+  })
+//$urlRouterProvider.otherwise('/page1/page2')
+$urlRouterProvider.otherwise('/page6')
+
+
+
 });

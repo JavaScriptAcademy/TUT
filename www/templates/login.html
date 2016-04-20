@@ -1,19 +1,17 @@
 <ion-view title="Login" id="page6">
     <ion-content padding="true" class="has-header">
-        <form class="list">
             <ion-list>
                 <label class="item item-input">
-                    <span class="input-label">Username</span>
-                    <input type="text" placeholder="">
+                    <span class="input-label">Email</span>
+                    <input type="text" ng-model="logininfo.email" placeholder="email">
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="password" placeholder="">
+                    <input type="password" ng-model="logininfo.password" placeholder="password">
                 </label>
             </ion-list>
             <div class="spacer" style="height: 40px;"></div>
-            <a ui-sref="tabsController.listDefaultPage" id="login-button4" class="button button-stable  button-block">Log in</a>
-            <a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" id="login-button5" class="button button-positive  button-block button-clear">Or create an account</a>
-        </form>
+            <a ng-click="login()" id="login-button4" class="button button-stable  button-block">Log in</a>
+            <a href="#/page5">Or create an account</a>
     </ion-content>
 </ion-view>

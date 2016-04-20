@@ -9,7 +9,6 @@
 // 'ionic-toast'
 angular.module('app', ['ionic', 'myFilter','app.controllers', 'app.routes', 'app.services', 'app.directives','ngCordova','ionic-datepicker',])
 
-
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

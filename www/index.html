@@ -10,10 +10,10 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <!-- path to ionic / angularjs files-->
-    <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script>
+    <!-- <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script> -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
     <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-    <script src="lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
+    <!-- <script src="slib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script> -->
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -39,7 +39,7 @@
     -->
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7">
+  <body ng-app="app" animation="slide-left-right-ios7" >
   <div>
     <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
         <ion-side-menu-content>
@@ -55,7 +55,8 @@
             <ion-header-bar class="bar-stable">
                 <div class="title">Menu</div>
             </ion-header-bar>
-            <ion-content padding="false" class="side-menu-left has-header"></ion-content>
+            <ion-content padding="false" class="side-menu-left has-header">
+            </ion-content>
         </ion-side-menu>
     </ion-side-menus>
 </div>
