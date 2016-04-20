@@ -8,7 +8,7 @@ angular.module('app.services', [])
 
 }])
 
-.service('userService', [function(){
+.service('userService', [function($ionicPopup){
 
   var userIn;
   var authUser;
@@ -29,12 +29,18 @@ angular.module('app.services', [])
     });
    },
    getUser:function(){
+    if(!userIn){
+      // var alertPop=$ionicPopup.alert({
+      //        title:"Load User",
+      //        template:"Still Loading User, please wait a minute! "
+      //      });
+    }
     return userIn;
    },
    getAuUser:function(){
     if(!authUser){
       var ref = new Firebase("https://tuttut.firebaseio.com");
-     authUser=ref.getAuth();
+      authUser=ref.getAuth();
     }
 
     return authUser;

@@ -175,6 +175,7 @@ usersRef.set({
 
   var ref = new Firebase("https://tuttut.firebaseio.com");
   var authUser=ref.getAuth();
+
   if(authUser){
      $state.go('tabsController.listDefaultPage');
       console.log("Authenticated successfully with payload:");
@@ -251,7 +252,7 @@ usersRef.set({
              template:"Update Successfully!"
            });
           alertPop.then(function(res) {
-           $state.go('tabsController.meDefaultPage');
+           $state.go('tabsController.meDefaultPage',{},{reload:true});
          });
 
          }

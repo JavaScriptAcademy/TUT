@@ -1,43 +1,5 @@
 <ion-view title="Create Meeting" id="page2">
     <ion-content padding="true" class="has-header">
-        <form class="list">
-            <label class="item item-input">
-                <span class="input-label">Meeting Name</span>
-                <input ng-model="meeting.name" type="text">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">HostName</span>
-                <input ng-model="meeting.host" type="text">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Time</span>
-                <input ng-model="meeting.time" type="text">
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Meeting InFo</span>
-                <input ng-model="meeting.description" type="text">
-            </label>
 
-            <label class="item item-select">
-                <span class="input-label">Add Friends</span>
-                     <label class="item item-input">
-                      <i class="icon ion-search placeholder-icon"></i>
-                      <input type="search" placeholder="Search">
-                    </label>
-            </label>
-        </form>
-        <button class="button" ng-click="show()">Show Action Sheet</button>
-        <button class="button" ng-click="clear()">Clear Action Sheet</button>
-        <h3 ng-bind="meeting.name"></h3>
-        <p ng-bind="meeting.host"></p>
-        <p ng-bind="meeting.time"></p>
-        <p ng-bind="meeting.description"></p>
-
-        <!-- <button id="createDefaultPage-button2" class="button button-positive  button-block">Create</button> -->
-        <!-- <button style="font-weight:600;" class="button button-positive ng-click="clear()" button-block">Clear</button> -->
-
-                    <div id='title'><h2>你觉得adom是帅哥吗？</h2></div>
-            <button id='yes' ng-click='voteOptionOne()' class='btn btn-info'>是:<span ng-bind="vote.option1"></span></button>
-            <button id='no'  ng-click='voteOptionTwo()' class='btn btn-info'>不是: <span ng-bind="vote.option2">票</button>
     </ion-content>
 </ion-view>
