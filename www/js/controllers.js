@@ -282,8 +282,8 @@ usersRef.set({
 
     ref.changePassword({
       email       : authUser.password.email,
-      oldPassword : scope.userinfo.curpassword,
-      newPassword : scope.userinfo.newpassword
+      oldPassword : $scope.userinfo.curpassword,
+      newPassword : $scope.userinfo.newpassword
     }, function(error) {
       if (error === null) {
 
