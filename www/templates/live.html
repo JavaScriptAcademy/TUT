@@ -17,14 +17,14 @@
 <ion-list>
     <ion-item ng-repeat="comment in comments">{{comment}}</ion-item>
 </ion-list>
-
+<!-- <div id="fuck">111</div> -->
   <div class="item item-input-inset">
     <label class="item-input-wrapper">
-      <input type="text" placeholder="Comments">
+      <input id="fuck" type="text" placeholder="Comments">
     </label>
-    <button class="button button-small">
+    <div class="button button-small" ng-click="addcomment()">
       Submit
-    </button>
+    </div>
   </div>
     </ion-content>
 </ion-view>

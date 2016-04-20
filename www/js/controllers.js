@@ -29,7 +29,6 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
 .controller('liveCtrl', function($scope,$state, $stateParams,$firebaseArray,$firebaseObject) {
 
 
-
     $scope.config = {
         visible: true, // default: true
         extended: false, // default: false
@@ -73,6 +72,15 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
 
 
     var ref = new Firebase("https://tuttut.firebaseio.com/events");           
+    var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/comments");
+
+    $scope.addcomment = function() {
+      var data = $firebaseArray(y)
+      
+      var toadd = document.querySelectorAll('#fuck')[0].value;
+      console.log('added comment',toadd);
+      data.$add(toadd)
+    }
 
     ref.on('value', function(data) {
       angular.element(document.querySelectorAll('.barss')).addClass('happy');
