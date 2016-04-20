@@ -1,55 +1,32 @@
 <ion-view title="Live" id="page7">
     <ion-content padding="true" class="has-header">
-        <div style="position:relative;overflow:hidden;padding-bottom:56.25%;height:0;">
-            <iframe src="https://www.youtube.com/embed/lTLTs2ZA2JQ?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen="" width="560" height="315" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-        </div>
 
-        <button class="button button-stable" ng-click="openCamera()">call camera</button>
-        <img ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="text-align: center">
+     <nvd3 options="options"
+      data="data"
+      config="config"
+      events="events"
+      api="api"
+      on-ready="callback"></nvd3>
+<div style="
+    margin: auto auto;
+    width: 80%">
+<div  class="button button-positive barss" ng-click="vote($index)" ng-repeat="thing in things">{{thing | getName}}</div>
 
+</div>
 
-        <label class="item item-input item-borderless">
-            <a class="input-label"><strong>Comments:</strong></a>
-            <button class="ion-plus-round button-clear" style="position:absolute;right:25px;top:2px;font-size:25px;color:#01579b;" ng-click="addComment()"></button>
-        </label>
+<h3>Comments:</h3>
+<ion-list>
+    <ion-item ng-repeat="comment in comments">{{comment}}</ion-item>
+</ion-list>
+<!-- <div id="fuck">111</div> -->
+  <div class="item item-input-inset">
+    <label class="item-input-wrapper">
+      <input id="fuck" type="text" placeholder="Comments">
+    </label>
+    <div class="button button-small" ng-click="addcomment()">
+      Submit
+    </div>
+  </div>
 
-        <div ng-show="editable" class="item item-avatar item-borderless" style="margin-left:20px;margin-bottom:1px;">
-            <!-- <img src="{{avatar}}"> -->
-            <img src="http://7xn1dt.com1.z0.glb.clouddn.com/a.jpeg">
-
-            <div class="item item-input-inset item-borderless" style="padding:5px;">
-              <label class="item-input-wrapper" style="background:#c5cae9;padding:1px;padding-top:0px;padding-left:0px;padding-right:0px;">
-                <input type="text" id="defectComment" ng-model="defectComment" class="item-input-wrapper" placeholder="Add something..." style="background:white;">
-              </label>
-              <button class="button button-small" ng-click="submitComment()">
-                Submit
-              </button>
-            </div>
-        </div>
-
-        <div ng-show="haveComments">
-            <div ng-repeat="comment in commentList" class="item item-avatar item-borderless" style="margin-left:20px;min-height:52px;padding-top:0px;padding-bottom:0px;margin-bottom:10px; ">
-
-                  <!-- <img src="{{coment.avatarUrl}}" style=" position: absolute; top: 0;bottom: 0; margin: auto;"> -->
-                  <img src="http://7xn1dt.com1.z0.glb.clouddn.com/a.jpeg" style=" position: absolute; top: 0;bottom: 0; margin: auto;">
-                  <div>
-                      <p>{{comment.userName}}&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                      <!-- {{comment.createTime | dateHMFilter}} -->
-                      <h3 style="word-break:break-all;white-space: normal;">{{comment.content}}</h3>
-                  </div>
-            </div>
-        </div>
-       <!--  <ion-list>
-            <ion-item class="item-divider">Q&amp;A</ion-item>
-            <ion-item class="item-thumbnail-left">
-                <img src="img/vGvrKVOcT1CGaYwmMvTn_merica.jpg">
-                <h2>Is there a plugin?</h2>
-                <p></p>
-            </ion-item>
-            <ion-list>
-                <ion-item>Is that available for win8?</ion-item>
-                <ion-item>Can you show more examples?</ion-item>
-            </ion-list>
-        </ion-list> -->
     </ion-content>
 </ion-view>

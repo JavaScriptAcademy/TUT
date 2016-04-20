@@ -28,6 +28,7 @@ angular.module('app.routes', [])
           templateUrl: 'templates/createDefaultPage.html',
           controller: 'createDefaultPageCtrl'
         }
+
       }
     })
 
@@ -59,37 +60,39 @@ angular.module('app.routes', [])
           controller: 'meDefaultPageCtrl'
         }
       }
-    })
 
-    .state('tabsController', {
-      url: '/page1',
-      templateUrl: 'templates/tabsController.html',
-      abstract:true
-    })
+  })
 
-    .state('signup', {
-      url: '/page5',
-      templateUrl: 'templates/signup.html',
-      controller: 'signupCtrl'
-    })
+  .state('tabsController', {
+    url: '/page1',
+    templateUrl: 'templates/tabsController.html',
+    abstract:true
+  })
 
-    .state('login', {
-      url: '/page6',
-      templateUrl: 'templates/login.html',
-      controller: 'loginCtrl'
-    })
+  .state('signup', {
+    url: '/page5',
+    templateUrl: 'templates/signup.html',
+    controller: 'signupCtrl'
+  })
 
-    .state('tabsController.live', {
-      url: '/page7',
-      views: {
-        'tab2': {
-          templateUrl: 'templates/live.html',
-          controller: 'liveCtrl'
-        }
+  .state('login', {
+    url: '/page6',
+    templateUrl: 'templates/login.html',
+    controller: 'loginCtrl'
+  })
+
+  .state('tabsController.live', {
+    url: '#/:foo',
+    views: {
+      'tab2': {
+        templateUrl: 'templates/live.html',
+        controller: 'liveCtrl'
+}
       }
     })
 
 $urlRouterProvider.otherwise('/page1/events/new')
+
 
 
 

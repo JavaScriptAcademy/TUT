@@ -1,5 +1,6 @@
 
-angular.module('app.controllers', ['app.services','firebase'])
+
+angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
 .controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker){
   var ref = new Firebase("https://tuttut.firebaseio.com");
@@ -178,23 +179,20 @@ angular.module('app.controllers', ['app.services','firebase'])
 
 
 
-.controller('listDefaultPageCtrl', ['$firebaseObject',function($scope,$firebaseObject) {
-  // var ref = new Firebase("https://fionatutprac.firebaseio.com/");
-  // https://tuttut.firebaseio.com
 
-  //this is a example to set a value which will over write the
+.controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
 
-  // var eventsRef = ref.child("events");
-
-
-  // $scope.vote = $firebaseObject(ref/events);
+        var ref = new Firebase("https://tuttut.firebaseio.com/events");
+        ref.once('value', function(data) {
+          $scope.eventsList = data.val();
+          $state.go($state.current, {}, {reload: true});
+        });
 
 }])
 
+
 .controller('meDefaultPageCtrl', function($scope) {
-  $scope.try1 = function(){
-    console.log("try1 called");
-  }
+
 
 })
 
@@ -206,189 +204,91 @@ angular.module('app.controllers', ['app.services','firebase'])
 
 })
 
-.controller('liveCtrl', function($scope, $cordovaCamera, BlankFactory) {
-  // $scope.settingavatar = {};
-   // document.addEventListener("deviceready", function openCamera () {
-  // $scope.openCamera = function() {
-  //   var options = {
-  //         quality: 50,
-  //         destinationType: Camera.DestinationType.DATA_URL,
-  //         sourceType: Camera.PictureSourceType.CAMERA,
-  //         allowEdit: true,
-  //         encodingType: Camera.EncodingType.JPEG,
-  //         targetWidth: 100,
-  //         targetHeight: 100,
-  //         popoverOptions: CameraPopoverOptions,
-  //         saveToPhotoAlbum: false,
-  //        correctOrientation:true
-  //       };
-
-  //       $cordovaCamera.getPicture(options).then(function(imageData) {
-  //         // var image = document.getElementById('myImage');
-  //         $scope.imgURI = "data:image/jpeg;base64," + imageData;
-  //       }, function(err) {
-  //         // error
-  //       });
-  // }
-
-  // $scope.task = {};
-  // $scope.defect = {};
-  $scope.allComments = {};
-
-  // $scope.avatar =  StoreService.GetVal("avatar");
-  // console.log("avatar: " + $scope.avatar);
-
-  // console.log("orgId and defectId:"+$stateParams.ttt);
-  //234234&35415
-
-  // var arr = $stateParams.ttt.split('&');
-  // var orgId = arr[0];
-  // var defectId = arr[1];
-  // StoreService.SetVal("pageID", 0);
-
-  // $ionicLoading.show({template:"Loading...",hideOnStateChange:true});
-
-    console.log("***********GetDefectDetai%%%%%%%%%%%%%%%%%l");
+.controller('liveCtrl', function($scope,$state, $stateParams,$firebaseArray,$firebaseObject) {
 
 
-  BlankFactory.GetUser();
+    $scope.config = {
+        visible: true, // default: true
+        extended: false, // default: false
+        disabled: false, // default: false
+        refreshDataOnly: true, // default: true
+        deepWatchOptions: true, // default: true
+        deepWatchData: true, // default: true
+        deepWatchDataDepth: 2, // default: 2
+        debounce: 10 // default: 10
+    };
+   $scope.options = {
+    chart: {
+        type: 'discreteBarChart',
+        height: 450,
+        margin : {
+            top: 20,
+            right: 20,
+            bottom: 60,
+            left: 55
+        },
+        x: function(d){ return d.label; },
+        y: function(d){ return d.value; },
+        showValues: true,
+        valueFormat: function(d){
+            return d3.format(',.4f')(d);
+        },
+        transitionDuration: 500,
+        xAxis: {
+            axisLabel: 'Brand'
+        },
+        yAxis: {
+            axisLabel: 'Y Axis',
+            axisLabelDistance: 30
+        }
+     }
+  };
 
-    // $scope.addComment = function(){
-
-    //     $scope.editable = !$scope.editable;
-    // }
-
-    // $scope.submitComment = function(){
-    //   var defectComment = document.getElementById("defectComment").value;
-    //   TaskService.SubmitDefectComment(Comment, function(response){
-
-    //   clearDefaultText(defectComment);
+    $scope.state = $state.current;
+    $scope.params = $stateParams;
+    $scope.routingIndex = $stateParams.foo;
 
 
-    //   function clearDefaultText (message)
-    //   {
-    //     var obj = document.getElementById("defectComment");
+    var ref = new Firebase("https://tuttut.firebaseio.com/events");
+    var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/comments");
 
-    //     if(obj.value == message)
-    //     {
-    //       obj.value = "";
-    //     }
+    $scope.addcomment = function() {
+      var data = $firebaseArray(y)
+      var toadd = document.querySelectorAll('#fuck')[0].value;
+      console.log('added comment',toadd);
+      data.$add(toadd)
+    }
 
-    //     obj.onblur = function()
-    //     {
-    //       if(obj.value == "")
-    //       {
-    //          obj.value = message;
-    //       }
-    //     }
-    //   }
+    ref.on('value', function(data) {
+      angular.element(document.querySelectorAll('.barss')).addClass('happy');
+      console.log('done!!');
+      $scope.comments = data.val()[$scope.routingIndex]['comments'];
+      $scope.participants = data.val()[$scope.routingIndex]['participants'];
+      $scope.data = [{
+            key: "Cumulative Return",
+            values: []
+            }];
+      $scope.participants.forEach(function(key, value) {
+        var name, vote;
+        name = Object.keys(key);
+        vote = key[name];
+        console.log('name: ',name,'vote : ',vote);
+        $scope.data[0].values.push({ "label" : name , "value" : vote });
+      });
+      // $state.go($state.current, {}, {reload: true});
 
-    //   TaskService.GetDefectComment(function(response){
-    //     // $ionicLoading.hide();
-    //     console.log("size: " + response.data.data.length);
-    //     if(response.data.data.length > 0){
-    //       console.log("true");
-    //       $scope.haveComments = true;
-    //       $scope.allComments = response.data.data;
-    //       $scope.commentList = $scope.allComments.slice(0, 5);
-    //       if(response.data.data.length > 5){
-    //         $scope.haveMoreComments = true;
-    //       }else{
-    //         $scope.haveMoreComments = false;
-    //       }
-    //     }else{
-    //       $scope.haveComments = false;
-    //     }
-    //   });
-    //   });
-    //   $scope.editable = false;
-    // }
-})
+    });
 
-// .controller('liveCtrl', function($scope, $cordovaCamera, $cordovaFile) {
-//   $scope.settingavatar = {};
-//   $scope.openCamera = function() {
-//   console.log("add image");
-//   // console.log("cordova.file.dataDirectory:"+cordova.file.dataDirectory);
-//   // 2
-//   var options = {
-//   destinationType : Camera.DestinationType.FILE_URI,
-//   sourceType : Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
-//   allowEdit : true,
-//   encodingType: Camera.EncodingType.JPEG,
-//   popoverOptions: CameraPopoverOptions,
-//   };
-//   //               quality: 50,
-//   //               destinationType: Camera.DestinationType.DATA_URL,
-//   //               targetWidth: 100,
-//   //               targetHeight: 100,
-//   //               saveToPhotoAlbum: false
-//   // 3
-//   $cordovaCamera.getPicture(options).then(function(imageData) {
-//   // 4
-//   onImageSuccess(imageData);
+    var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
+    z.on('value', function(data) {
+      $scope.things = data.val();
+      $scope.vote = function(num) {
+        var key = Object.keys(data.val()[num])
+        var value = data.val()[num][key];
+        var tobe = {[key]:value+1}
+        z.child(num+'/').update(tobe)
 
-//   function onImageSuccess(fileURI) {
-//     createFileEntry(fileURI);
-//   }
+      }
+    })
 
-//   function createFileEntry(fileURI) {
-//     window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-//   }
-//   //5
-//   function copyFile(fileEntry) {
-//     var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-//     var newName = makeid() + name;
-
-//     window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
-//       fileEntry.copyTo(
-//       fileSystem2,
-//       newName,
-//       onCopySuccess,
-//       fail
-//       );
-//     },
-//     fail);
-//   }
-//   // 6
-//   function onCopySuccess(entry) {
-//   //   $scope.$apply(function () {
-//   //   // $scope.images.set(entry.nativeURL);
-//   //   $scope.images.push(entry.nativeURL);
-//   //   $scope.settingavatar.image=entry.nativeURL;
-//   //   $scope.images.cleanup();
-
-//   // });
-//   //add by Fiona 11_16
-//   // navigator.camera.cleanup( cameraSuccess, cameraError );
-
-//   // $scope.settingavatar.image=entry.nativeURL;
-//   }
-
-//   function fail(error) {
-//     console.log("fail: " + error.code);
-//   }
-
-//   function makeid() {
-//     var text = "";
-//     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-//     for (var i=0; i < 5; i++) {
-//       text += possible.charAt(Math.floor(Math.random() * possible.length));
-//     }
-
-//     return text;
-//     }
-//     }, function(err) {
-//     console.log(err);
-//     });
-//   }
-
-//   $scope.urlForImage = function(imageName) {
-//     console.log("get correct path for image");
-//     var name = imageName.substr(imageName.lastIndexOf('/') + 1);
-//     var trueOrigin = cordova.file.dataDirectory + name;
-//     return trueOrigin;
-//   };
-
-// });
+});
