@@ -76,7 +76,6 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
 
     $scope.addcomment = function() {
       var data = $firebaseArray(y)
-      
       var toadd = document.querySelectorAll('#fuck')[0].value;
       console.log('added comment',toadd);
       data.$add(toadd)
