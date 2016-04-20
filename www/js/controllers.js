@@ -71,6 +71,7 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
     $scope.params = $stateParams; 
     $scope.routingIndex = $stateParams.foo;
 
+
     var ref = new Firebase("https://tuttut.firebaseio.com/events");           
 
     ref.on('value', function(data) {
@@ -104,11 +105,6 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
 
       }
     })
-
-
-
-
-
 
 });
  
