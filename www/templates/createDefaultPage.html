@@ -12,7 +12,7 @@
             </label>
             <label class="item item-input">
                 <span class="input-label">Time</span>
-                <input ng-model="events.time  | date:'yyyy-MM-dd' " type="text">
+                <span>{{events.time | date: 'yyyy-MM-dd'}}</span>
                 <button class="button button-small button-energized" id='timepicker' ng-click="timeChoose()">Choose Time</button>
             </label>
 
