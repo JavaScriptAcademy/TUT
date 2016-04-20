@@ -14,23 +14,27 @@
                 <span class="input-label">Time</span>
                 <input ng-model="events.time" type="text">
             </label>
-            <button ng-click="timeChoose()">Choose time</button>
+            <button class="button button-small button-positive" ng-click="timeChoose()">Choose time</button>
             <label class="item item-input">
                 <span class="input-label">Event InFo</span>
                 <input ng-model="events.info" type="text">
             </label>
-                <span class="input-label" style="margin-left:6px; margin-top:10px">Candidates:</span>
+                <span class="input-label" style="margin-left:6px; margin-top:10px">Participants:</span>
+
+
+
+
 
             <label class="item item-input">
-                <input id="inputText" type="text" placeholder="Add Candidates" ng-model="events.candidates">
+                <input id="inputText" type="text" placeholder="Add participants" ng-model="temp.currentParticipant">
 
             </label>
-            <button class="button button-positive button-small" ng-click="addCandidates()">
+            <button class="button button-positive button-small" ng-click="addParticipants()">
                         Add
                 </button>
 
-            <button id="createDefaultPage-button2" type="submit" ng-click="createEvent(events)">Create</button>
-            <button ng-click="cancle()">Clear</button>
+            <button id="createDefaultPage-button2" class="button button-small button-positive" type="submit" ng-click="createEvent(events)">Create</button>
+            <button class="button button-small button-positive" ng-click="cancle()">Clear</button>
 
         </form>
     </ion-content>

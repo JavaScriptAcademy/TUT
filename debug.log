@@ -10,3 +10,16 @@
 [0418/153736:ERROR:process_info.cc(608)] range at 0xfe6f4000, size 0xf84 fully unreadable
 [0418/153736:ERROR:process_info.cc(608)] range at 0xfe6fd000, size 0xf84 fully unreadable
 [0418/153736:ERROR:process_info.cc(608)] range at 0xfe6fa000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfef36000, size 0x230 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfef3e000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfef3b000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfef35000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfee0f000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfee0c000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfee09000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfee06000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfee03000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfee00000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfedfd000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfedf7000, size 0xf84 fully unreadable
+[0419/180504:ERROR:process_info.cc(608)] range at 0xfedfa000, size 0xf84 fully unreadable

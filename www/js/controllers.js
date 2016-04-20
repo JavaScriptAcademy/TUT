@@ -1,26 +1,30 @@
 
 angular.module('app.controllers', ['app.services','firebase'])
 
-.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker){
-  var ref = new Firebase("https://fionatutprac.firebaseio.com/");
-  // https://tuttut.firebaseio.com
-  ref.on('value', function(data) {
-    $scope.index = data.val().length;
-  })
+.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker){
+  var ref = new Firebase("https://tuttut.firebaseio.com");
+  // https://tuttut.firebaseio.com https://fionatutprac.firebaseio.com/
+  // ref.on('value', function(data) {
+  //   $scope.index = data.val().length;
+
+  // })
+ // 'ionicToast', ,ionicToast
+
+  index = 0;
 
   var eventsRef = ref.child("events");
-
+  $scope.temp = {currentParticipant : ''};
   $scope.events = {
     name: "",
     host: "",
     info: "",
     time: "",
-    candidates: [],
+    participants: [],
   };
 
-  var tempCandidates=[];
+  var tempParticipants=[];
 
-  var index = Math.floor(Math.random()*200);
+  // var index = Math.floor(Math.random()*200);
 
   $scope.timeChoose = function(){
     console.log("time choose");
@@ -119,7 +123,7 @@ angular.module('app.controllers', ['app.services','firebase'])
     }
     else{
 
-      console.log("%%^&^^%$####", tempCandidates);
+      console.log("%%^&^^%$####", tempParticipants);
 
     eventsRef.child(index++).set({
      name: events.name,
@@ -127,14 +131,14 @@ angular.module('app.controllers', ['app.services','firebase'])
         info: events.info,
         time: events.time,
         hostname: events.host,
-        candidates: tempCandidates,
+        participants: tempParticipants,
     });
 
       $scope.events.name='';
       $scope.events.host='';
       $scope.events.info='';
       $scope.events.time='';
-
+      tempParticipants = [];
 
 
       $state.go('tabsController.listDefaultPage');
@@ -143,21 +147,33 @@ angular.module('app.controllers', ['app.services','firebase'])
 
   };
 
-  $scope.addCandidates = function(){
-    console.log("candidates");
+  $scope.addParticipants = function(){
+    console.log("participants");
 
-    var k;
+    var  k = {};
+    k[$scope.temp.currentParticipant] = 0;
+    console.log("KKKKKKKKKKK ", k);
 
-    k = $scope.events.candidates;
-    console.log("KKKKKKKKKKK ",k);
+    tempParticipants.push(k);
+    console.log("tempparticipants*****", tempParticipants);
 
-    tempCandidates.push(k);
-    console.log("tempCandidates*****", tempCandidates);
-
+    $scope.temp.currentParticipant = "";
 
 
+    // ionicToast.show('Added success.', 'middle', true, 2500);
 
-  }
+    // $cordovaToast
+    // .show('Here is a message', 'long', 'center')
+    // .then(function(success) {
+    //   // success
+    // }, function (error) {
+    //   // error
+    // });
+
+    $scope.events.listParticipants = tempParticipants;
+
+
+  };
 }])
 
 
