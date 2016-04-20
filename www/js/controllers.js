@@ -2,7 +2,7 @@
 
 angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
-.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker){
+.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', 'ionicToast',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,ionicToast){
   var ref = new Firebase("https://tuttut.firebaseio.com");
   // https://tuttut.firebaseio.com https://fionatutprac.firebaseio.com/
   // ref.on('value', function(data) {
@@ -162,7 +162,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     $scope.temp.currentParticipant = "";
 
 
-    // ionicToast.show('Added success.', 'middle', true, 2500);
+    ionicToast.show('Added success.', 'middle', true, 2500);
 
     // $cordovaToast
     // .show('Here is a message', 'long', 'center')

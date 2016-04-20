@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 // 'ionic-toast'
-angular.module('app', ['ionic', 'myFilter','app.controllers', 'app.routes', 'app.services', 'app.directives','ngCordova','ionic-datepicker',])
+angular.module('app', ['ionic', 'myFilter','app.controllers', 'app.routes', 'app.services', 'app.directives','ngCordova','ionic-datepicker','ionic-toast'])
 
 
 .run(function($ionicPlatform) {
