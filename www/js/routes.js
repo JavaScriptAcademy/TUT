@@ -91,10 +91,6 @@ angular.module('app.routes', [])
       }
     })
 
-$urlRouterProvider.otherwise('/page1/events/new')
-
-
-
 
 .state('tabsController.editProfile', {
     url: '/page11',

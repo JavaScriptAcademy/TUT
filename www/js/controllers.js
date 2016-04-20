@@ -11,18 +11,16 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
      company:"test"
   }
 
-
-   var userIn=userService.getUser();
-   console.log('see user', userIn);
-   if(userIn){
-     $scope.userinfo.name=userIn.userfullname;
-     $scope.userinfo.gender=userIn.gender;
-     $scope.userinfo.phonenumber=userIn.phonenumber;
-     $scope.userinfo.company=userIn.company;
-   }
-
-
-
+  $scope.load = function() {
+     var userIn=userService.getUser();
+     console.log('see user', userIn);
+     if(userIn){
+       $scope.userinfo.name=userIn.userfullname;
+       $scope.userinfo.gender=userIn.gender;
+       $scope.userinfo.phonenumber=userIn.phonenumber;
+       $scope.userinfo.company=userIn.company;
+     }
+  }
 
    $scope.gotoEditProfile=function(){
     $state.go('tabsController.editProfile');

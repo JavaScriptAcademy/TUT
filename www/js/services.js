@@ -118,12 +118,6 @@ angular.module('app.services', [])
     });
    },
    getUser:function(){
-    if(!userIn){
-      // var alertPop=$ionicPopup.alert({
-      //        title:"Load User",
-      //        template:"Still Loading User, please wait a minute! "
-      //      });
-    }
     return userIn;
    },
    getAuUser:function(){
