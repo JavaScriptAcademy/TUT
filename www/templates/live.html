@@ -14,10 +14,6 @@
 </div>
 
 <h3>Comments:</h3>
-<ion-list>
-    <ion-item ng-repeat="comment in comments">{{comment}}</ion-item>
-</ion-list>
-<!-- <div id="fuck">111</div> -->
   <div class="item item-input-inset">
     <label class="item-input-wrapper">
       <input id="fuck" type="text" placeholder="Comments">
@@ -26,5 +22,9 @@
       Submit
     </div>
   </div>
+<ion-list>
+    <ion-item ng-repeat="comment in comments">{{comment}}</ion-item>
+</ion-list>
+
     </ion-content>
 </ion-view>

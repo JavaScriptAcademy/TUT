@@ -7,7 +7,7 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
 .controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
         
         var ref = new Firebase("https://tuttut.firebaseio.com/events");           
-        ref.once('value', function(data) {
+        ref.on('value', function(data) {
           $scope.eventsList = data.val();
           $state.go($state.current, {}, {reload: true}); 
         });
@@ -78,7 +78,8 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
       var data = $firebaseArray(y)
       var toadd = document.querySelectorAll('#fuck')[0].value;
       console.log('added comment',toadd);
-      data.$add(toadd)
+      data.$add(toadd);
+      document.querySelectorAll('#fuck')[0].value = ''
     }
 
     ref.on('value', function(data) {
