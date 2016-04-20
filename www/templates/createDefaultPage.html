@@ -1,36 +1,44 @@
-<ion-view title="Create Meeting" id="page2">
+<ion-view title="Create Event" id="page2">
     <ion-content padding="true" class="has-header">
-        <form class="list">
+        <form class="list" novalidate>
+        <!-- ng-submit="createEvent(events)"  -->
             <label class="item item-input">
-                <span class="input-label">Meeting Name</span>
-                <input ng-model="meeting.name" type="text">
+                <span class="input-label">Event Name</span>
+                <input ng-model="events.name" type="text">
             </label>
             <label class="item item-input">
                 <span class="input-label">HostName</span>
-                <input ng-model="meeting.host" type="text">
+                <input ng-model="events.host" type="text">
             </label>
             <label class="item item-input">
                 <span class="input-label">Time</span>
-                <input ng-model="meeting.time" type="text">
+                <input ng-model="events.time" type="text">
             </label>
+            <button class="button button-small button-positive" ng-click="timeChoose()">Choose time</button>
             <label class="item item-input">
-                <span class="input-label">Meeting InFo</span>
-                <input ng-model="meeting.description" type="text">
+                <span class="input-label">Event InFo</span>
+                <input ng-model="events.info" type="text">
             </label>
+                <span class="input-label" style="margin-left:6px; margin-top:10px">Participants:</span>
 
-            <label class="item item-select">
-                <span class="input-label">Add Friends</span>
-                     <label class="item item-input">
-                      <i class="icon ion-search placeholder-icon"></i>
-                      <input type="search" placeholder="Search">
-                    </label>
+
+
+
+
+            <label class="item item-input">
+                <input id="inputText" type="text" placeholder="Add participants" ng-model="temp.currentParticipant">
+
             </label>
+            <button class="button button-positive button-small" ng-click="addParticipants()">
+                        Add
+                </button>
+
+            <button id="createDefaultPage-button2" class="button button-small button-positive" type="submit" ng-click="createEvent(events)">Create</button>
+            <button class="button button-small button-positive" ng-click="cancle()">Clear</button>
+
         </form>
-        <button class="button" ng-click="show()">Show Action Sheet</button>
-        <button class="button" ng-click="clear()">Clear Action Sheet</button>
-        <h3 ng-bind="meeting.name"></h3>
-        <p ng-bind="meeting.host"></p>
-        <p ng-bind="meeting.time"></p>
-        <p ng-bind="meeting.description"></p>
+
+
     </ion-content>
 </ion-view>
+
