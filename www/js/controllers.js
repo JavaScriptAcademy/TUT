@@ -6,8 +6,8 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
    
 .controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
         
-        var ref = new Firebase("https://tuttut.firebaseio.com");           
-        ref.child('events').once('value', function(data) {
+        var ref = new Firebase("https://tuttut.firebaseio.com/events");           
+        ref.once('value', function(data) {
           $scope.eventsList = data.val();
           $state.go($state.current, {}, {reload: true}); 
         });
@@ -58,7 +58,7 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
         },
         transitionDuration: 500,
         xAxis: {
-            axisLabel: 'X Axis'
+            axisLabel: 'Brand'
         },
         yAxis: {
             axisLabel: 'Y Axis',
@@ -72,23 +72,11 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
     $scope.routingIndex = $stateParams.foo;
 
     var ref = new Firebase("https://tuttut.firebaseio.com/events");           
-    ref.once('value', function(data) {
-      $scope.comments = data.val()[$scope.routingIndex]['comments'];
-      $scope.participants = data.val()[$scope.routingIndex]['participants'];
-      $scope.data = [{
-        key: "Cumulative Return",
-        values: []
-        }];
-      $scope.participants.forEach(function(key, value) {
-        var name, vote;
-        name = Object.keys(key);
-        vote = key[name];
-        console.log('name: ',name,'vote : ',vote);
-        $scope.data[0].values.push({ "label" : name , "value" : vote });
-      });
-    });
 
     ref.on('value', function(data) {
+      angular.element(document.querySelectorAll('.barss')).addClass('happy');
+      console.log('done!!');
+      $scope.comments = data.val()[$scope.routingIndex]['comments'];
       $scope.participants = data.val()[$scope.routingIndex]['participants'];
       $scope.data = [{
             key: "Cumulative Return",
@@ -104,29 +92,18 @@ angular.module('app.controllers', ['firebase', 'nvd3'])
       $state.go($state.current, {}, {reload: true}); 
 
     });
-
  
-      var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
-      z.on('value', function(data) {
-        $scope.things = data.val();
-        $scope.vote = function(num) {
-          var key = Object.keys(data.val()[num])
-          var value = data.val()[num][key];
-          var tobe = {[key]:value+1}
-          z.child(num+'/').update(tobe)
+    var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
+    z.on('value', function(data) {
+      $scope.things = data.val();
+      $scope.vote = function(num) {
+        var key = Object.keys(data.val()[num])
+        var value = data.val()[num][key];
+        var tobe = {[key]:value+1}
+        z.child(num+'/').update(tobe)
 
-        }
-        console.log('data :',data.val().length);
-
-        // var key = Object.keys(data.val()[0])
-        // console.log('key is : ',key);
-        // var value = data.val()[0][key];
-        // console.log('value is :',value);
-
-
-        // var tobe = {[key]:value+1}
-        // z.child('0/').update(tobe)
-      })
+      }
+    })
 
 
 

@@ -8,10 +8,26 @@
       on-ready="callback"></nvd3>
 
 
-<button ng-repeat="thing in things"><div ng-click="vote($index)">{{thing}}</div></button>
+
+<div style="
+    margin: auto auto;
+    width: 80%">
+<div  class="button button-positive barss" ng-click="vote($index)" ng-repeat="thing in things">{{thing | getName}}</div>
+    
+</div>
+
 <h3>Comments:</h3>
 <ion-list>
     <ion-item ng-repeat="comment in comments">{{comment}}</ion-item>
 </ion-list>
+
+  <div class="item item-input-inset">
+    <label class="item-input-wrapper">
+      <input type="text" placeholder="Comments">
+    </label>
+    <button class="button button-small">
+      Submit
+    </button>
+  </div>
     </ion-content>
 </ion-view>
