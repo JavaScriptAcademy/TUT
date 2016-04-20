@@ -12,29 +12,33 @@
             </label>
             <label class="item item-input">
                 <span class="input-label">Time</span>
-                <input ng-model="events.time" type="text">
+                <input ng-model="events.time  | date:'yyyy-MM-dd' " type="text">
+                <button class="button button-small button-energized" id='timepicker' ng-click="timeChoose()">Choose Time</button>
             </label>
-            <button class="button button-small button-positive" ng-click="timeChoose()">Choose time</button>
+
             <label class="item item-input">
                 <span class="input-label">Event InFo</span>
                 <input ng-model="events.info" type="text">
             </label>
                 <span class="input-label" style="margin-left:6px; margin-top:10px">Participants:</span>
-
-
-
-
-
-            <label class="item item-input">
+            <button ng-repeat='name in names' class='button button-small button-balanced' id='name'>          {{name}}
+            </button>
+            <div class='row'>
+                <label class="item item-input col col-80">
                 <input id="inputText" type="text" placeholder="Add participants" ng-model="temp.currentParticipant">
 
-            </label>
-            <button class="button button-positive button-small" ng-click="addParticipants()">
-                        Add
+                </label>
+                <button class="button button-positive button-small col col-20" ng-click="addParticipants()">
+                            Add
                 </button>
+            </div>
+            <br>
+            <div class='row'>
+                <button id="createDefaultPage-button2 " class="button button-small button-calm col col-45" type="submit" ng-click="createEvent(events)">Create</button>
+                <div class='col col-10'></div>
+                <button class="button button-small button-assertive col col-45" ng-click="cancle()">Clear</button>
+            </div>
 
-            <button id="createDefaultPage-button2" class="button button-small button-positive" type="submit" ng-click="createEvent(events)">Create</button>
-            <button class="button button-small button-positive" ng-click="cancle()">Clear</button>
 
         </form>
 
