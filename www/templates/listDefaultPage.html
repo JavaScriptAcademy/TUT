@@ -1,9 +1,9 @@
-<ion-view title="List Default Page" id="page3">
+<ion-view title="List Default Page" cache-view="false" id="page3">
     <ion-content padding="true" class="has-header">
 
         <ion-list>
             <ion-item class="item-divider">Recently</ion-item>
-            <ion-item ng-repeat="event in eventsList" class="item-thumbnail-left" ui-sref="tabsController.live({foo: $index})">
+            <ion-item ng-repeat="event in eventsList" class="item-thumbnail-left" ui-sref="tabsController.live({foo: event.key})">
                 <!-- <div href={{/}}></div> -->
                 <img>
                 <h2>{{event.name}}</h2>
