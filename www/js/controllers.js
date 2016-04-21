@@ -427,7 +427,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
   }
 })
 
-.controller('resetPasswordCtrl', function($scope,userService,$ionicPopup) {
+.controller('resetPasswordCtrl', function($scope,userService,$ionicPopup,$state) {
 
   $scope.userinfo={
     curpassword:"",
