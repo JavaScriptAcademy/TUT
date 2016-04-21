@@ -239,13 +239,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 }])
 
 
-
-
-
-
-
-
-
 .controller('signupCtrl', function($scope,$state,$ionicPopup) {
 
   // var email=document.getElementById('useremail').value;
@@ -393,6 +386,37 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
          }
         });
    }
+})
+
+
+.controller('forgetPasswordCtrl', function($scope,$state,userService,$ionicPopup) {
+  $scope.logininfo={
+    email:""
+  }
+
+  $scope.sendNewPassword=function(){
+    var ref = new Firebase("https://tuttut.firebaseio.com");
+    ref.resetPassword({
+      email : $scope.logininfo.email
+    }, function(error) {
+      if (error === null) {
+        var alertPop=$ionicPopup.alert({
+             title:"Reset Password",
+             template:"A new password is sent to email: "+$scope.logininfo.email+"."
+        });
+        alertPop.then(function(){
+           $state.go('login');
+        });
+        console.log("Password reset email sent successfully");
+      } else {
+        var alertPop=$ionicPopup.alert({
+             title:"Reset Password",
+             template:"Error sending password reset email: "+error
+        });
+        console.log("Error sending password reset email:", error);
+      }
+    });
+  }
 })
 
 .controller('resetPasswordCtrl', function($scope,userService,$ionicPopup) {
