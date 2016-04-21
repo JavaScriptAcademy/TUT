@@ -11,18 +11,16 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
      company:"test"
   }
 
-
-   var userIn=userService.getUser();
-   console.log('see user', userIn);
-   if(userIn){
-     $scope.userinfo.name=userIn.userfullname;
-     $scope.userinfo.gender=userIn.gender;
-     $scope.userinfo.phonenumber=userIn.phonenumber;
-     $scope.userinfo.company=userIn.company;
-   }
-
-
-
+  $scope.load = function() {
+     var userIn=userService.getUser();
+     console.log('see user', userIn);
+     if(userIn){
+       $scope.userinfo.name=userIn.userfullname;
+       $scope.userinfo.gender=userIn.gender;
+       $scope.userinfo.phonenumber=userIn.phonenumber;
+       $scope.userinfo.company=userIn.company;
+     }
+  }
 
    $scope.gotoEditProfile=function(){
     $state.go('tabsController.editProfile');
@@ -173,7 +171,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
       console.log("%%^&^^%$####", tempParticipants);
 
-    eventsRef.child(index++).set({
+    eventsRef.push().set({
      name: events.name,
         comments: '',
         info: events.info,
@@ -244,7 +242,15 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
         var ref = new Firebase("https://tuttut.firebaseio.com/events");
         ref.on('value', function(data) {
-          $scope.eventsList = data.val();
+
+          $scope.eventsList = [];
+          data.forEach(function(sth) {
+            var key = sth.key()
+            sth = sth.val();
+            sth.key = key;
+            console.log(' i am logging !!!name',sth);
+            $scope.eventsList.push(sth)
+          })
           $state.go($state.current, {}, {reload: true});
         });
 
@@ -407,7 +413,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
    }
 })
 
-.controller('resetPasswordCtrl', function($scope,userService,$ionicPopup) {
+.controller('resetPasswordCtrl', function($state,$scope,userService,$ionicPopup) {
   $scope.userinfo={
     curpassword:"",
     newpassword:"",
@@ -439,7 +445,10 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
              title:"Password Reset",
              template:"Password changed successfully! "
            });
-
+           alertPop.then(function() {
+            $state.go('tabsController.meDefaultPage');
+           })
+        
         console.log("Password changed successfully");
       } else {
          var alertPop=$ionicPopup.alert({
@@ -512,8 +521,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     }
 
     ref.on('value', function(data) {
-      angular.element(document.querySelectorAll('.barss')).addClass('happy');
-      console.log('done!!');
+
       $scope.comments = data.val()[$scope.routingIndex]['comments'];
       $scope.participants = data.val()[$scope.routingIndex]['participants'];
       $scope.data = [{
