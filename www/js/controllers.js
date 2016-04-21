@@ -188,6 +188,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       $scope.events.time='';
       tempParticipants = [];
       $scope.temp.currentParticipant = '';
+      $scope.names = [];
 
 
       $state.go('tabsController.listDefaultPage',{},{reload:true});
@@ -200,7 +201,14 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     console.log("participants");
 
     var  k = {};
-    $scope.names.push($scope.temp.currentParticipant);
+
+    if($scope.temp.currentParticipant.length == 0){
+      var arlterPop = $ionicPopup.alert({
+        title:"Illegal Input",
+        template:"Please input the participants name, then click Add button!"
+      });
+    }else{
+       $scope.names.push($scope.temp.currentParticipant);
     k[$scope.temp.currentParticipant] = 0;
     console.log("KKKKKKKKKKK ", k);
 
@@ -221,6 +229,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     });
 
     $scope.events.listParticipants = tempParticipants;
+    }
+
 
 
   };
