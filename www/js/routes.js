@@ -81,6 +81,12 @@ angular.module('app.routes', [])
     controller: 'loginCtrl'
   })
 
+  .state('forgetPassword', {
+    url: '/page13',
+    templateUrl: 'templates/forgetpassword.html',
+    controller: 'forgetPasswordCtrl'
+  })
+
   .state('tabsController.live', {
     url: '#/:foo',
     views: {
