@@ -70,6 +70,13 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
   var tempParticipants=[];
 
+   // $scope.events.name='';
+       // $scope.events.host='';
+       // $scope.events.info='';
+       // $scope.events.time='';
+
+       // $scope.temp.currentParticipant = '';
+       // $scope.names = [];
   // var index = Math.floor(Math.random()*200);
 
   $scope.timeChoose = function(){
@@ -154,12 +161,14 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         template:"Event Host is Required!"
       });
     }
+
     // else if(events.time.length== 0){
     //   var arlterPop = $ionicPopup.alert({
     //     title:"Message",
     //     template:"Event Time is Required!"
     //   });
     // }
+
     else if(events.info.length== 0){
       var arlterPop = $ionicPopup.alert({
         title:"Message",
@@ -169,24 +178,44 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     }
     else{
 
-      console.log("%%^&^^%$####", tempParticipants);
 
-    eventsRef.push().set({
-     name: events.name,
+    eventsRef.child(events.name).set({
         comments: '',
         info: events.info,
         time: events.time,
         hostname: events.host,
-        participants: tempParticipants,
-    });
+        participants: '',
+    }, function(error){
+           if(error){
+           var alertPop=$ionicPopup.alert({
+             title:"Create Event",
+             template:"Create Event Failed! "+error
+           });
+         }else{
+            console.log("xxxxxxxxxxxxxxxxxxxxxxx"+tempParticipants.length);
+           for(var i=0;i<tempParticipants.length;i++){
+               eventsRef.child(events.name).child('participants').child(tempParticipants[i]).set({
+                vote:0,
+               });
+           }
 
-      $scope.events.name='';
-      $scope.events.host='';
-      $scope.events.info='';
-      $scope.events.time='';
-      tempParticipants = [];
-      $scope.temp.currentParticipant = '';
-      $scope.names = [];
+
+
+           // userService.loadUser();
+           // var alertPop=$ionicPopup.alert({
+           //   title:"Create Event!",
+           //   template:"Update Successfully!"
+           // });
+         //  alertPop.then(function(res) {
+         //  // $state.go('tabsController.meDefaultPage',{},{reload:true});
+
+
+         // });
+
+         }
+        });
+
+
 
 
       $state.go('tabsController.listDefaultPage',{},{reload:true});
@@ -198,7 +227,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
   $scope.addParticipants = function(){
     console.log("participants");
 
-    var  k = {};
+  //  var  k = {};
 
     if($scope.temp.currentParticipant.length == 0){
       var arlterPop = $ionicPopup.alert({
@@ -207,10 +236,11 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       });
     }else{
        $scope.names.push($scope.temp.currentParticipant);
-    k[$scope.temp.currentParticipant] = 0;
-    console.log("KKKKKKKKKKK ", k);
+       tempParticipants.push($scope.temp.currentParticipant);
+   // k[$scope.temp.currentParticipant] = 0;
+    //console.log("KKKKKKKKKKK ", k);
 
-    tempParticipants.push(k);
+  //  tempParticipants.push(k);
     console.log("tempparticipants*****", tempParticipants);
 
     $scope.temp.currentParticipant = "";
@@ -226,7 +256,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       // error
     });
 
-    $scope.events.listParticipants = tempParticipants;
+  // $scope.events.listParticipants = tempParticipants;
     }
 
 
@@ -365,9 +395,11 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     phonenumber:"",
     company:""
   };
-
-   var authUser=userService.getAuUser();
+  var authUser;
+ $scope.load = function(){
+   authUser=userService.getAuUser();
    var userIn=userService.getUser();
+   console.log(userIn);
    if(userIn){
 
      $scope.userinfo.gender=userIn.gender;
@@ -375,12 +407,31 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
      $scope.userinfo.company=userIn.company;
    }
 
+
+ }
+
    $scope.EditProfile=function(){
 
 
-     // var userDb=userService.getUserDb();
-     // var currentUser=userDb.child(authUser.uid);
+
        var currentUser = new Firebase("https://tuttut.firebaseio.com/users/"+authUser.uid);
+
+
+       var arrayref=currentUser.child('array1');
+       var temparray=userService.convertArray(arrayref);
+       var len=temparray.length;
+
+       for(var i=0;i< len;i++){
+         aaaRef=arrayref.child(temparray[i]).child("final");
+         console.log('i:'+i+'len:'+temparray.length);
+          aaaRef.push({
+            fitest:"finalTest"
+          });
+
+       }
+
+       console.log(temparray);
+
       currentUser.update({
           "gender":$scope.userinfo.gender,
           "phonenumber":$scope.userinfo.phonenumber,
@@ -398,7 +449,9 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
              template:"Update Successfully!"
            });
           alertPop.then(function(res) {
-           $state.go('tabsController.meDefaultPage',{},{reload:true});
+          // $state.go('tabsController.meDefaultPage',{},{reload:true});
+
+
          });
 
          }
@@ -564,6 +617,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
     });
 
+
     var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
     z.on('value', function(data) {
       $scope.things = data.val();
@@ -576,5 +630,9 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
       }
     })
+
+  function checkUserVoteRight(){
+
+  }
 
 });
