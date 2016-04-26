@@ -1,0 +1,25 @@
+.barss {
+	font-size:30px;
+}
+.list-wrapper{
+	position: relative;
+}
+.list-wrapper .ion-search{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+}
+.list-wrapper input{
+	border: 1px solid #ddd;
+    position: relative;
+    width: 100%;
+    padding-left: 30px;
+}
+.list-wrapper .ion-android-cancel{
+    transform: scale(1.5,1.5);
+    position: absolute;
+    right: -10px;
+    z-index: 1;
+    top: 7px;
+}

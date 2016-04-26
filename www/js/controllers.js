@@ -1,7 +1,5 @@
 angular.module('app.controllers', ['app.services','firebase','nvd3'])
 // .controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', 'ionicToast',function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,ionicToast){
-
-
 .controller('meDefaultPageCtrl', function($scope,$state,userService) {
 
   $scope.userinfo={
@@ -9,7 +7,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
      gender:"Female",
      phonenumber:"xxxx",
      company:"test"
-  }
+  };
 
   $scope.load = function() {
      var userIn=userService.getUser();
@@ -20,15 +18,15 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
        $scope.userinfo.phonenumber=userIn.phonenumber;
        $scope.userinfo.company=userIn.company;
      }
-  }
+  };
 
    $scope.gotoEditProfile=function(){
     $state.go('tabsController.editProfile');
-   }
+   };
 
    $scope.gotoResetPassword=function(){
     $state.go('tabsController.resetPassword');
-   }
+   };
 
 
    $scope.logout=function(){
@@ -37,9 +35,9 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     if(authUser){
       ref.unauth();}
 
-    console.log("log out")
+    console.log("log out");
     $state.go('login');
-   }
+   };
  })
 
 
@@ -69,9 +67,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
   };
 
   var tempParticipants=[];
-
   // var index = Math.floor(Math.random()*200);
-
   $scope.timeChoose = function(){
     console.log("time choose");
      var ipObj1 = {
@@ -115,8 +111,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         $scope.events.time = date;
     });
 
-  }
-
+  };
 
   $scope.cancle = function() {
     console.log("cancle called");
@@ -130,25 +125,19 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
               $scope.events.host='';
               $scope.events.info='';
               $scope.events.time='';
-
               $state.go('tabsController.listDefaultPage');
-
-
              }else{
               }
             });
-
   };
 
   $scope.createEvent = function(events) {
-
-    if(events.name.length== 0){
+    if(events.name.length === 0){
       var arlterPop = $ionicPopup.alert({
         title:"Message",
         template:"Event Name is Required!"
       });
-
-    }else if(events.host.length== 0){
+    }else if(events.host.length === 0){
       var arlterPop = $ionicPopup.alert({
         title:"Message",
         template:"Event Host is Required!"
@@ -160,7 +149,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     //     template:"Event Time is Required!"
     //   });
     // }
-    else if(events.info.length== 0){
+    else if(events.info.length === 0){
       var arlterPop = $ionicPopup.alert({
         title:"Message",
         template:"Event Info is Required!"
@@ -168,9 +157,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
     }
     else{
-
       console.log("%%^&^^%$####", tempParticipants);
-
     eventsRef.push().set({
      name: events.name,
         comments: '',
@@ -179,7 +166,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         hostname: events.host,
         participants: tempParticipants,
     });
-
       $scope.events.name='';
       $scope.events.host='';
       $scope.events.info='';
@@ -187,19 +173,13 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       tempParticipants = [];
       $scope.temp.currentParticipant = '';
       $scope.names = [];
-
-
       $state.go('tabsController.listDefaultPage',{},{reload:true});
     }
-
-
   };
 
   $scope.addParticipants = function(){
     console.log("participants");
-
     var  k = {};
-
     if($scope.temp.currentParticipant.length == 0){
       var arlterPop = $ionicPopup.alert({
         title:"Illegal Input",
@@ -212,12 +192,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
     tempParticipants.push(k);
     console.log("tempparticipants*****", tempParticipants);
-
     $scope.temp.currentParticipant = "";
-
-
     // ionicToast.show('Added success.', 'middle', true, 2500);
-
     $cordovaToast
     .show('You added a participant!', 'long', 'center')
     .then(function(success) {
@@ -225,17 +201,10 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     }, function (error) {
       // error
     });
-
     $scope.events.listParticipants = tempParticipants;
     }
-
-
-
   };
 }])
-
-
-
 
 .controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
         document.querySelectorAll('ion-spinner')[0].style.display = 'block';
@@ -266,21 +235,19 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         $scope.onFoucs = function() {
           document.querySelectorAll('#eventsListDisplay')[0].style.display = 'none';
           document.querySelectorAll('#searchResultsDisplay')[0].style.display = 'block';
+          console.log('show list');
         };
-        // $scope.onBlur = function() {
-        //   document.querySelectorAll('#eventsListDisplay')[0].style.display = 'block';
-        //   document.querySelectorAll('#searchResultsDisplay')[0].style.display = 'none';
-        // }
-
-
+        $scope.hideEventDisplay = function() {
+          document.querySelectorAll('#eventsListDisplay')[0].style.display = 'block';
+          document.querySelectorAll('#searchResultsDisplay')[0].style.display = 'none';
+          console.log('hide list');
+        };
 }])
-
 
 .controller('signupCtrl', function($scope,$state,$ionicPopup) {
 
   // var email=document.getElementById('useremail').value;
   // var password=document.getElementById('password').value;
-
   $scope.userau={
     email:"",
     password:"",
@@ -301,7 +268,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
           console.log("Error creating user:", error);
         } else {
            var userRef = ref.child("users");
-
         // we can also chain the two calls together
           userRef.child(userData.uid).set({
           userfullname: $scope.userau.name,
@@ -317,8 +283,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
          }
        });
 
-
-         var alertPop=$ionicPopup.alert({
+         var alertPop = $ionicPopup.alert({
           title:"signUp Successfully!",
           template:"Successfully created user account! "
         });
@@ -331,7 +296,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       });
 
 
-  }
+  };
 
 })
 
@@ -349,9 +314,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
      $state.go('tabsController.listDefaultPage');
       console.log("Authenticated successfully with payload:");
   }
-
   $scope.login=function(){
-
     ref.authWithPassword({
     email    : $scope.logininfo.email,
     password : $scope.logininfo.password
@@ -376,7 +339,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
 })
 
-
 .controller('editProfileCtrl', function($scope,$state,userService,$ionicPopup) {
 
    $scope.userinfo={
@@ -384,7 +346,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     phonenumber:"",
     company:""
   };
-
    var authUser=userService.getAuUser();
    var userIn=userService.getUser();
    if(userIn){
@@ -395,8 +356,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
    }
 
    $scope.EditProfile=function(){
-
-
      // var userDb=userService.getUserDb();
      // var currentUser=userDb.child(authUser.uid);
        var currentUser = new Firebase("https://tuttut.firebaseio.com/users/"+authUser.uid);
@@ -412,26 +371,25 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
            });
          }else{
            userService.loadUser();
-           var alertPop=$ionicPopup.alert({
+           var alertPop = $ionicPopup.alert({
              title:"Update Successfully!",
              template:"Update Successfully!"
            });
           alertPop.then(function(res) {
            $state.go('tabsController.meDefaultPage',{},{reload:true});
          });
-
          }
         });
-   }
+   };
 })
 
 
 .controller('forgetPasswordCtrl', function($scope,$state,userService,$ionicPopup) {
-  $scope.logininfo={
+  $scope.logininfo = {
     email:""
-  }
+  };
 
-  $scope.sendNewPassword=function(){
+  $scope.sendNewPassword = function(){
     var ref = new Firebase("https://tuttut.firebaseio.com");
     ref.resetPassword({
       email : $scope.logininfo.email
@@ -446,14 +404,14 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         });
         console.log("Password reset email sent successfully");
       } else {
-        var alertPop=$ionicPopup.alert({
+        var alertPop = $ionicPopup.alert({
              title:"Reset Password",
              template:"Error sending password reset email: "+error
         });
         console.log("Error sending password reset email:", error);
       }
     });
-  }
+  };
 })
 
 .controller('resetPasswordCtrl', function($scope,userService,$ionicPopup,$state) {
@@ -463,7 +421,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     newpassword:"",
     newpassworda:""
   };
-
 
   $scope.resetPassword=function(){
 
@@ -491,11 +448,11 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
            });
            alertPop.then(function() {
             $state.go('tabsController.meDefaultPage');
-           })
+           });
 
         console.log("Password changed successfully");
       } else {
-         var alertPop=$ionicPopup.alert({
+         var alertPop = $ionicPopup.alert({
              title:"Password Reset",
              template:"Password changed Failed! "+error
            });
@@ -503,7 +460,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         console.log("Error changing password:", error);
       }
     });
-  }
+  };
 
 })
 

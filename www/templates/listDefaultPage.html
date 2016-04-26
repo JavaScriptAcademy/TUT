@@ -1,32 +1,34 @@
 <ion-view title="List Default Page" id="page3">
     <ion-content  padding="true" class="has-header">
-    <div class="list list-inset">
-      <label class="item item-input">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="text"  ng-focus="onFoucs()" ng-blur="expression" ng-keyup="fuzzySearch()" ng-model="searchInput.type" placeholder="Search">
-      </label>
-    </div>
-        <ion-list id='eventsListDisplay'>
+    <div class="list list-inset list-wrapper">
 
+            <i class="col-md-10 icon ion-search placeholder-icon"></i>
+            <input type="text"  ng-click="onFoucs()" ng-keyup="fuzzySearch()" ng-model="searchInput.type" placeholder="Search">
+            <i style="width:30px;transform: scale(2,2);"class="icon ion-android-cancel" ng-click="hideEventDisplay()"></i>
+
+    </div>
+    
+        <ion-list id='eventsListDisplay'>
             <ion-item class="item-divider">Recently</ion-item>
-            <ion-spinner style='display: none;margin-left: auto;margin-right:auto;margin-top:50%;width: 40px;'icon="spiral"></ion-spinner>
+            <ion-spinner style='display: none;margin-left: auto;margin-right: auto;margin-top: 50%;width: 40px;'icon="spiral"></ion-spinner>
             <ion-item ng-repeat="event in eventsList" class="item-thumbnail-left" ui-sref="tabsController.live({foo: event.key})">
-                <!-- <div href={{/}}></div> -->
                 <img>
                 <h2>{{event.name}}</h2>
                 <p>{{event.time}}</p>
                 <p>{{event.info}}</p>
                 <p>Promoted by:{{event.hostname}}</p>
-
             </ion-item>
         </ion-list>
-        <!-- <div ng-bind="searchInput.type"></div> -->
         <ion-list id='searchResultsDisplay' style="display: none">
             <ion-item class="item-divider">Search results</ion-item>
-                <div >{{ result }}</div>
+                <ion-item ng-repeat="event in result" class="item-thumbnail-left" ui-sref="tabsController.live({foo: event.key})">
+                    <img>
+                    <h2>{{event.name}}</h2>
+                    <p>{{event.time}}</p>
+                    <p>{{event.info}}</p>
+                    <p>Promoted by:{{event.hostname}}</p>
+                </ion-item>
             </ion-item>
         </ion-list>
     </ion-content>
-
-
 </ion-view>
