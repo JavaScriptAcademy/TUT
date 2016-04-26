@@ -1,8 +1,15 @@
 <ion-view title="List Default Page" id="page3">
-    <ion-content padding="true" class="has-header">
+    <ion-content  padding="true" class="has-header">
+    <div class="list list-inset">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text"  ng-focus="onFoucs()" ng-blur="expression" ng-keyup="fuzzySearch()" ng-model="searchInput.type" placeholder="Search">
+      </label>
+    </div>
+        <ion-list id='eventsListDisplay'>
 
-        <ion-list>
             <ion-item class="item-divider">Recently</ion-item>
+            <ion-spinner style='display: none;margin-left: auto;margin-right:auto;margin-top:50%;width: 40px;'icon="spiral"></ion-spinner>
             <ion-item ng-repeat="event in eventsList" class="item-thumbnail-left" ui-sref="tabsController.live({foo: event.key})">
                 <!-- <div href={{/}}></div> -->
                 <img>
@@ -13,5 +20,13 @@
 
             </ion-item>
         </ion-list>
+        <!-- <div ng-bind="searchInput.type"></div> -->
+        <ion-list id='searchResultsDisplay' style="display: none">
+            <ion-item class="item-divider">Search results</ion-item>
+                <div >{{ result }}</div>
+            </ion-item>
+        </ion-list>
     </ion-content>
+
+
 </ion-view>

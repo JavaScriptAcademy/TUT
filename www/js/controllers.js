@@ -238,21 +238,40 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
 
 .controller('listDefaultPageCtrl', ['$scope','$state','$firebaseObject',function($scope,$state,$firebaseObject){
-
-
+        document.querySelectorAll('ion-spinner')[0].style.display = 'block';
+        $scope.searchInput = {type:''};
         var ref = new Firebase("https://tuttut.firebaseio.com/events");
         ref.on('value', function(data) {
-
           $scope.eventsList = [];
           data.forEach(function(sth) {
-            var key = sth.key()
+            var key = sth.key();
             sth = sth.val();
             sth.key = key;
-            console.log(' i am logging !!!name',sth);
-            $scope.eventsList.push(sth)
-          })
+            // console.log(' i am logging name',sth);
+            $scope.eventsList.push(sth);
+          });
+          document.querySelectorAll('ion-spinner')[0].style.display = 'none';
           $state.go($state.current, {}, {reload: true});
         });
+        var options = {
+              keys: ['name']
+            };
+        $scope.fuzzySearch = function() {
+          $scope.result = '';
+          f = new Fuse($scope.eventsList, options);
+          if(f.search($scope.searchInput.type))
+            $scope.result = f.search($scope.searchInput.type);
+          // console.log($scope.searchInput.type);
+        };
+        $scope.onFoucs = function() {
+          document.querySelectorAll('#eventsListDisplay')[0].style.display = 'none';
+          document.querySelectorAll('#searchResultsDisplay')[0].style.display = 'block';
+        };
+        // $scope.onBlur = function() {
+        //   document.querySelectorAll('#eventsListDisplay')[0].style.display = 'block';
+        //   document.querySelectorAll('#searchResultsDisplay')[0].style.display = 'none';
+        // }
+
 
 }])
 
@@ -352,7 +371,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       {
       remember: "sessionOnly"
     });
-  }
+  };
 
 
 })
@@ -490,8 +509,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
 
 .controller('liveCtrl', function($scope,$state, $stateParams,$firebaseArray,$firebaseObject) {
-
-
     $scope.config = {
         visible: true, // default: true
         extended: false, // default: false
@@ -528,25 +545,22 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         }
      }
   };
-
     $scope.state = $state.current;
     $scope.params = $stateParams;
     $scope.routingIndex = $stateParams.foo;
-
 
     var ref = new Firebase("https://tuttut.firebaseio.com/events");
     var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/comments");
 
     $scope.addcomment = function() {
-      var data = $firebaseArray(y)
+      var data = $firebaseArray(y);
       var toadd = document.querySelectorAll('#fuck')[0].value;
       console.log('added comment',toadd);
       data.$add(toadd);
-      document.querySelectorAll('#fuck')[0].value = ''
-    }
+      document.querySelectorAll('#fuck')[0].value = '';
+    };
 
     ref.on('value', function(data) {
-
       $scope.comments = data.val()[$scope.routingIndex]['comments'];
       $scope.participants = data.val()[$scope.routingIndex]['participants'];
       $scope.data = [{
@@ -561,7 +575,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         $scope.data[0].values.push({ "label" : name , "value" : vote });
       });
       // $state.go($state.current, {}, {reload: true});
-
     });
 
     var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
@@ -569,12 +582,12 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       $scope.things = data.val();
       $scope.indent =80/data.val().length;
       $scope.vote = function(num) {
-        var key = Object.keys(data.val()[num])
+        var key = Object.keys(data.val()[num]);
         var value = data.val()[num][key];
-        var tobe = {[key]:value+1}
-        z.child(num+'/').update(tobe)
+        var tobe = {[key]:value+1};
+        z.child(num+'/').update(tobe);
 
-      }
-    })
+      };
+    });
 
 });
