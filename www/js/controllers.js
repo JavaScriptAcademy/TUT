@@ -456,7 +456,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
              template:"Update Successfully!"
            });
           alertPop.then(function(res) {
-          // $state.go('tabsController.meDefaultPage',{},{reload:true});
+           $state.go('tabsController.meDefaultPage',{},{reload:true});
 
 
          });
@@ -592,7 +592,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     $scope.state = $state.current;
     $scope.params = $stateParams;
     $scope.eventName = $stateParams.foo;
-    $scope.userList={};
+
 
 
     var ref = new Firebase("https://tuttut.firebaseio.com/events");
