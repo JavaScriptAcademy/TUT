@@ -68,7 +68,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     participants: [],
   };
 
-  var tempParticipants=[];
+  var tempParticipants={};
 
    // $scope.events.name='';
        // $scope.events.host='';
@@ -137,6 +137,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
               $scope.events.host='';
               $scope.events.info='';
               $scope.events.time='';
+              $scope.names='';
 
               $state.go('tabsController.listDefaultPage');
 
@@ -179,12 +180,14 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     else{
 
 
-    eventsRef.child(events.name).set({
+    eventsRef.push({
+        name:events.name,
         comments: '',
         info: events.info,
         time: events.time,
         hostname: events.host,
-        participants: '',
+        participants: tempParticipants,
+        user:''
     }, function(error){
            if(error){
            var alertPop=$ionicPopup.alert({
@@ -193,11 +196,11 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
            });
          }else{
             console.log("xxxxxxxxxxxxxxxxxxxxxxx"+tempParticipants.length);
-           for(var i=0;i<tempParticipants.length;i++){
-               eventsRef.child(events.name).child('participants').child(tempParticipants[i]).set({
-                vote:0,
-               });
-           }
+           // for(var i=0;i<tempParticipants.length;i++){
+           //     eventsRef.child(events.name).child('participants').child(tempParticipants[i]).set({
+           //      vote:0,
+           //     });
+           //}
 
 
 
@@ -235,8 +238,12 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         template:"Please input the participants name, then click Add button!"
       });
     }else{
+
+
+      tempParticipants[$scope.temp.currentParticipant]={"vote":0};
+
        $scope.names.push($scope.temp.currentParticipant);
-       tempParticipants.push($scope.temp.currentParticipant);
+
    // k[$scope.temp.currentParticipant] = 0;
     //console.log("KKKKKKKKKKK ", k);
 
@@ -542,7 +549,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 })
 
 
-.controller('liveCtrl', function($scope,$state, $stateParams,$firebaseArray,$firebaseObject) {
+.controller('liveCtrl', function($scope,$state, $ionicPopup,$stateParams,$firebaseArray,$firebaseObject,userService) {
 
 
     $scope.config = {
@@ -584,11 +591,12 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
     $scope.state = $state.current;
     $scope.params = $stateParams;
-    $scope.routingIndex = $stateParams.foo;
+    $scope.eventName = $stateParams.foo;
+    $scope.userList={};
 
 
     var ref = new Firebase("https://tuttut.firebaseio.com/events");
-    var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/comments");
+    var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.eventName+"/comments");
 
     $scope.addcomment = function() {
       var data = $firebaseArray(y)
@@ -600,39 +608,93 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
     ref.on('value', function(data) {
 
-      $scope.comments = data.val()[$scope.routingIndex]['comments'];
-      $scope.participants = data.val()[$scope.routingIndex]['participants'];
-      $scope.data = [{
-            key: "Cumulative Return",
-            values: []
-            }];
-      $scope.participants.forEach(function(key, value) {
-        var name, vote;
-        name = Object.keys(key);
-        vote = key[name];
-        console.log('name: ',name,'vote : ',vote);
-        $scope.data[0].values.push({ "label" : name , "value" : vote });
-      });
+      $scope.comments = data.val()[$scope.eventName]['comments'];
+      $scope.userList=data.val()[$scope.eventName]['user'];
+
+      console.log('usersssssss: ',$scope.userList);
+      // $scope.participants = data.val()[$scope.eventName]['participants'];
+      //  console.log('participants: ',$scope.participants);
+      // $scope.data = [{
+      //       key: "Cumulative Return",
+      //       values: []
+      //       }];
+      // $scope.participants.forEach(function(key, value) {
+      //   var name, vote;
+      //   name = Object.keys(key);
+      //   vote = key[name];
+      //   console.log('name: ',name,'vote : ',vote);
+      //   $scope.data[0].values.push({ "label" : name , "value" : vote });
+      // });
       // $state.go($state.current, {}, {reload: true});
 
     });
 
 
-    var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
+    $scope.things=[];
+    var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.eventName+"/participants");
     z.on('value', function(data) {
-      $scope.things = data.val();
-      $scope.indent =80/data.val().length;
-      $scope.vote = function(num) {
-        var key = Object.keys(data.val()[num])
-        var value = data.val()[num][key];
-        var tobe = {[key]:value+1}
-        z.child(num+'/').update(tobe)
+
+       $scope.data = [{
+            key: "Cumulative Return",
+            values: []
+            }];
+
+      data.forEach(function(da){
+
+       $scope.things.push(da.key());
+       var name, vote;
+       name =da.key();
+       vote = da.val().vote;
+       console.log("label" , name,"value" , vote);
+       $scope.data[0].values.push({ "label" : name , "value" : vote });
+     });
+     // $scope.things = data.val();
+
+      $scope.indent =80/$scope.things.length;
+      $scope.vote = function(name) {
+
+         var userId=userService.getAuUser().uid;
+
+         if(checkUserVoteRight(userId)){
+          // var key = Object.keys(data.val()[num])
+         var value = data.val()[name].vote+1;
+         console.log("this",name);
+        // var tobe = {[key]:value+1}
+      //   z.child(name).child("vote/").update(value);
+           z.child(name).update({
+            vote:value
+           });
+
+           ref.child($scope.eventName).child("user").push({
+            userid:userId});
+         }else{
+           var alertPop=$ionicPopup.alert({
+             title:"Vote",
+             template:"Soooorry~cannot vote twice! "
+           });
+
+
+         }
+
 
       }
     })
 
-  function checkUserVoteRight(){
+  function checkUserVoteRight(userId){
+    var right=true;
 
+        if($scope.userList!==""){
+            var userKeys=Object.keys($scope.userList);
+            console.log("checkUserVoteRight userIDDDDD:",userKeys);
+
+           for(var i=0;i<userKeys.length;i++){
+             if($scope.userList[userKeys[i]].userid==userId){
+              right=false;
+            }
+          }
+
+        }
+    return right;
   }
 
 });
