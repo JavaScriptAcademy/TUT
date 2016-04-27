@@ -1,4 +1,4 @@
-<ion-view title="Live" id="page7">
+<ion-view title={{name}} id="page7">
     <ion-content padding="true" class="has-header">
      <nvd3 options="options"
       data="data"
@@ -6,9 +6,7 @@
       events="events"
       api="api"
       on-ready="callback"></nvd3>
-<div style="
-    margin: auto auto;
-    width: 80%">
+<div style="margin: auto auto; width: 80%">
 <div  class="button button-positive" style="margin-left: {{indent}}px;" ng-click="vote(thing)" ng-repeat="thing in things">{{thing}}</div>
 </div>
 <h3>Comments:</h3>

@@ -161,6 +161,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     console.log("tempparticipants*****", tempParticipants);
     $scope.temp.currentParticipant = "";
 
+
     }
   };
 }])
@@ -454,10 +455,10 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         visible: true, // default: true
         extended: false, // default: false
         disabled: false, // default: false
-        refreshDataOnly: true, // default: true
-        deepWatchOptions: true, // default: true
-        deepWatchData: true, // default: true
-        deepWatchDataDepth: 2, // default: 2
+        // refreshDataOnly: true, // default: true
+        // deepWatchOptions: true, // default: true
+        // deepWatchData: true, // default: true
+        // deepWatchDataDepth: 2, // default: 2
         debounce: 10 // default: 10
     };
    $scope.options = {
@@ -490,7 +491,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     $scope.params = $stateParams;
     $scope.eventName = $stateParams.foo;
 
-
     var ref = new Firebase("https://tuttut.firebaseio.com/events");
     var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.eventName+"/comments");
 
@@ -503,8 +503,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     };
 
     ref.on('value', function(data) {
-
-
+      $scope.name = data.val()[$scope.eventName]['name'];
       $scope.comments = data.val()[$scope.eventName]['comments'];
       $scope.userList=data.val()[$scope.eventName]['user'];
       console.log('usersssssss: ',$scope.userList);
@@ -518,6 +517,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
             key: "Cumulative Return",
             values: []
             }];
+
       $scope.things =  [];
       data.forEach(function(da){
 
@@ -528,8 +528,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
        console.log("label" , name,"value" , vote);
        $scope.data[0].values.push({ "label" : name , "value" : vote });
      });
-     // $scope.things = data.val();
-
       $scope.indent =150/$scope.things.length;
       $scope.vote = function(name) {
 
@@ -554,7 +552,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
            });
 
 
-         }
+         };
       };
     });
 
@@ -570,7 +568,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
               right=false;
             }
           }
-
         }
     return right;
   }
