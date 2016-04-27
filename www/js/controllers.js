@@ -46,7 +46,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
 
 
-.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', '$cordovaToast', function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,$cordovaToast){
+.controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state',function($scope,$firebaseObject,$ionicPopup,$state){
+// .controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', '$cordovaToast', function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,$cordovaToast){
 
   var ref = new Firebase("https://tuttut.firebaseio.com");
   // https://tuttut.firebaseio.com https://fionatutprac.firebaseio.com/
@@ -72,51 +73,54 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
   // var index = Math.floor(Math.random()*200);
 
-  $scope.timeChoose = function(){
-    console.log("time choose");
-     var ipObj1 = {
-      callback: function (val) {  //Mandatory
-        console.log('Return value from the datepicker popup is : ' + val, new Date(val));
-      },
-      disabledDates: [            //Optional
-        new Date(2016, 2, 16),
-        new Date(2015, 3, 16),
-        new Date(2015, 4, 16),
-        new Date(2015, 5, 16),
-        new Date('Wednesday, August 12, 2015'),
-        new Date("08-16-2016"),
-        new Date(1439676000000)
-      ],
-      from: new Date(2012, 1, 1), //Optional
-      to: new Date(2016, 10, 30), //Optional
-      inputDate: new Date(),      //Optional
-      mondayFirst: true,          //Optional
-      disableWeekdays: [0],       //Optional
-      closeOnSelect: false,       //Optional
-      templateType: 'popup'       //Optional
-    };
+  // $scope.timeChoose = function(){
+  //   console.log("time choose");
+  //    var ipObj1 = {
+  //     callback: function (val) {  //Mandatory
+  //       console.log('Return value from the datepicker popup is : ' + val, new Date(val));
+  //     },
+  //     disabledDates: [            //Optional
+  //       new Date(2016, 2, 16),
+  //       new Date(2015, 3, 16),
+  //       new Date(2015, 4, 16),
+  //       new Date(2015, 5, 16),
+  //       new Date('Wednesday, August 12, 2015'),
+  //       new Date("08-16-2016"),
+  //       new Date(1439676000000)
+  //     ],
+  //     from: new Date(2012, 1, 1), //Optional
+  //     to: new Date(2016, 10, 30), //Optional
+  //     inputDate: new Date(),      //Optional
+  //     mondayFirst: true,          //Optional
+  //     disableWeekdays: [0],       //Optional
+  //     closeOnSelect: false,       //Optional
+  //     templateType: 'popup'       //Optional
+  //   };
 
-    $scope.openDatePicker = function(){
-      // ionicDatePicker.openDatePicker(ipObj1);
-    };
-    var options = {
-      date: new Date(),
-      mode: 'date', // or 'time'
-      minDate: new Date() - 10000,
-      allowOldDates: true,
-      allowFutureDates: false,
-      doneButtonLabel: 'DONE',
-      doneButtonColor: '#F2F3F4',
-      cancelButtonLabel: 'CANCEL',
-      cancelButtonColor: '#000000'
-    };
+  //   $scope.openDatePicker = function(){
+  //     // ionicDatePicker.openDatePicker(ipObj1);
+  //   };
+  //   var options = {
+  //     date: new Date(),
+  //     mode: 'date', // or 'time'
+  //     minDate: new Date() - 10000,
+  //     allowOldDates: true,
+  //     allowFutureDates: false,
+  //     doneButtonLabel: 'DONE',
+  //     doneButtonColor: '#F2F3F4',
+  //     cancelButtonLabel: 'CANCEL',
+  //     cancelButtonColor: '#000000'
+  //   };
 
-    $cordovaDatePicker.show(options).then(function(date){
-        $scope.events.time = date;
-    });
+  //   $cordovaDatePicker.show(options).then(function(date){
+  //       $scope.events.time = date;
+  //   });
 
-  }
+  // }
 
+ $scope.haha = function(){
+  console.log("hahahhahah");
+ }
 
   $scope.cancle = function() {
     console.log("cancle called");
@@ -212,19 +216,18 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
     tempParticipants.push(k);
     console.log("tempparticipants*****", tempParticipants);
-
     $scope.temp.currentParticipant = "";
 
 
     // ionicToast.show('Added success.', 'middle', true, 2500);
 
-    $cordovaToast
-    .show('You added a participant!', 'long', 'center')
-    .then(function(success) {
-      // success
-    }, function (error) {
-      // error
-    });
+    // $cordovaToast
+    // .show('You added a participant!', 'long', 'center')
+    // .then(function(success) {
+    //   // success
+    // }, function (error) {
+    //   // error
+    // });
 
     $scope.events.listParticipants = tempParticipants;
     }
@@ -569,10 +572,10 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
       $scope.things = data.val();
       $scope.indent =80/data.val().length;
       $scope.vote = function(num) {
-        var key = Object.keys(data.val()[num])
+        var key = Object.keys(data.val()[num]);
         var value = data.val()[num][key];
-        var tobe = {[key]:value+1}
-        z.child(num+'/').update(tobe)
+        var tobe = {[key]:value+1};
+        z.child(num+'/').update(tobe);
 
       }
     })
