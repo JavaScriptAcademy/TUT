@@ -528,7 +528,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     $scope.params = $stateParams;
     $scope.eventName = $stateParams.foo;
 
-
     var ref = new Firebase("https://tuttut.firebaseio.com/events");
     var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.eventName+"/comments");
 
@@ -541,7 +540,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     };
 
     ref.on('value', function(data) {
-
+      $scope.name = data.val()[$scope.eventName]['name'];
       $scope.comments = data.val()[$scope.eventName]['comments'];
       $scope.userList=data.val()[$scope.eventName]['user'];
       console.log('usersssssss: ',$scope.userList);
@@ -596,7 +595,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
   function checkUserVoteRight(userId){
     var right=true;
-
         if($scope.userList!==""){
             var userKeys=Object.keys($scope.userList);
             console.log("checkUserVoteRight userIDDDDD:",userKeys);
@@ -606,7 +604,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
               right=false;
             }
           }
-
         }
     return right;
   }
