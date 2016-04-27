@@ -232,13 +232,13 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     console.log("tempparticipants*****", tempParticipants);
     $scope.temp.currentParticipant = "";
     // ionicToast.show('Added success.', 'middle', true, 2500);
-    $cordovaToast
-    .show('You added a participant!', 'long', 'center')
-    .then(function(success) {
-      // success
-    }, function (error) {
-      // error
-    });
+    // $cordovaToast
+    // .show('You added a participant!', 'long', 'center')
+    // .then(function(success) {
+    //   // success
+    // }, function (error) {
+    //   // error
+    // });
     }
   };
 }])
@@ -596,7 +596,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
             key: "Cumulative Return",
             values: []
             }];
-
+      $scope.things = []
       data.forEach(function(da){
 
        $scope.things.push(da.key());
@@ -607,13 +607,13 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
        $scope.data[0].values.push({ "label" : name , "value" : vote });
      });
      // $scope.things = data.val();
-
-      $scope.indent =80/$scope.things.length;
+      console.log($scope.things);
+      $scope.indent =150/$scope.things.length;
       $scope.vote = function(name) {
 
-         var userId=userService.getAuUser().uid;
+         // var userId=userService.getAuUser().uid;
 
-         if(checkUserVoteRight(userId)){
+         // if(checkUserVoteRight(userId)){
           // var key = Object.keys(data.val()[num])
          var value = data.val()[name].vote+1;
          console.log("this",name);
@@ -625,15 +625,15 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
            ref.child($scope.eventName).child("user").push({
             userid:userId});
-         }else{
-           var alertPop=$ionicPopup.alert({
-             title:"Vote",
-             template:"Soooorry~cannot vote twice! "
-           });
+         // }else{
+           // var alertPop=$ionicPopup.alert({
+           //   title:"Vote",
+           //   template:"Soooorry~cannot vote twice! "
+           // });
 
 
          }
-      };
+      // };
     });
 
   function checkUserVoteRight(userId){
