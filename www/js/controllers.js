@@ -163,6 +163,12 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
            });
          }else{
             console.log("xxxxxxxxxxxxxxxxxxxxxxx"+tempParticipants.length);
+              $scope.events.name='';
+              $scope.events.host='';
+              $scope.events.info='';
+              $scope.events.time='';
+
+              $scope.names='';
 
          }
         });
