@@ -1,7 +1,5 @@
 <ion-view title="Live" id="page7">
     <ion-content padding="true" class="has-header">
-
-
      <nvd3 options="options"
       data="data"
       config="config"
@@ -11,10 +9,8 @@
 <div style="
     margin: auto auto;
     width: 80%">
-<div  class="button button-positive" style="margin-left: {{indent}}px;" ng-click="vote($index)" ng-repeat="thing in things">{{thing | getName}}</div>
-
+<div  class="button button-positive" style="margin-left: {{indent}}px;" ng-click="vote(thing)" ng-repeat="thing in things">{{thing}}</div>
 </div>
-
 <h3>Comments:</h3>
   <div class="item item-input-inset">
     <label class="item-input-wrapper">
