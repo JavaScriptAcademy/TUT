@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'myFilter','app.controllers', 'app.routes', 'app
 
 
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$ionicLoading) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

@@ -200,6 +200,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         $scope.hideEventDisplay = function() {
           document.querySelectorAll('#eventsListDisplay')[0].style.display = 'block';
           document.querySelectorAll('#searchResultsDisplay')[0].style.display = 'none';
+          $scope.searchInput.type = '';
           console.log('hide list');
         };
 }])
@@ -528,7 +529,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
        console.log("label" , name,"value" , vote);
        $scope.data[0].values.push({ "label" : name , "value" : vote });
      });
-      $scope.indent =150/$scope.things.length;
+      $scope.indent =120/$scope.things.length;
       $scope.vote = function(name) {
 
          var userId=userService.getAuUser().uid;
