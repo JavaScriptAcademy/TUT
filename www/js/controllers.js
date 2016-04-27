@@ -42,8 +42,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 
 
 
-
-
 .controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', '$cordovaToast', function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,$cordovaToast){
 
   var ref = new Firebase("https://tuttut.firebaseio.com");
@@ -66,7 +64,17 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     participants: [],
   };
 
-  var tempParticipants=[];
+
+  var tempParticipants={};
+
+   // $scope.events.name='';
+       // $scope.events.host='';
+       // $scope.events.info='';
+       // $scope.events.time='';
+
+       // $scope.temp.currentParticipant = '';
+       // $scope.names = [];
+
   // var index = Math.floor(Math.random()*200);
   $scope.timeChoose = function(){
     console.log("time choose");
@@ -125,6 +133,9 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
               $scope.events.host='';
               $scope.events.info='';
               $scope.events.time='';
+
+              $scope.names='';
+
               $state.go('tabsController.listDefaultPage');
              }else{
               }
@@ -143,54 +154,81 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         template:"Event Host is Required!"
       });
     }
+
     // else if(events.time.length== 0){
     //   var arlterPop = $ionicPopup.alert({
     //     title:"Message",
     //     template:"Event Time is Required!"
     //   });
     // }
+
     else if(events.info.length === 0){
       var arlterPop = $ionicPopup.alert({
         title:"Message",
         template:"Event Info is Required!"
       });
-
     }
     else{
-      console.log("%%^&^^%$####", tempParticipants);
-    eventsRef.push().set({
-     name: events.name,
+
+    eventsRef.push({
+        name:events.name,
         comments: '',
         info: events.info,
         time: events.time,
         hostname: events.host,
         participants: tempParticipants,
-    });
-      $scope.events.name='';
-      $scope.events.host='';
-      $scope.events.info='';
-      $scope.events.time='';
-      tempParticipants = [];
-      $scope.temp.currentParticipant = '';
-      $scope.names = [];
+
+        user:''
+    }, function(error){
+           if(error){
+           var alertPop=$ionicPopup.alert({
+             title:"Create Event",
+             template:"Create Event Failed! "+error
+           });
+         }else{
+            console.log("xxxxxxxxxxxxxxxxxxxxxxx"+tempParticipants.length);
+           // for(var i=0;i<tempParticipants.length;i++){
+           //     eventsRef.child(events.name).child('participants').child(tempParticipants[i]).set({
+           //      vote:0,
+           //     });
+           //}
+
+
+
+           // userService.loadUser();
+           // var alertPop=$ionicPopup.alert({
+           //   title:"Create Event!",
+           //   template:"Update Successfully!"
+           // });
+         //  alertPop.then(function(res) {
+         //  // $state.go('tabsController.meDefaultPage',{},{reload:true});
+
+
+         // });
+
+         }
+        });
       $state.go('tabsController.listDefaultPage',{},{reload:true});
     }
   };
 
   $scope.addParticipants = function(){
     console.log("participants");
-    var  k = {};
+
     if($scope.temp.currentParticipant.length == 0){
       var arlterPop = $ionicPopup.alert({
         title:"Illegal Input",
         template:"Please input the participants name, then click Add button!"
       });
     }else{
-       $scope.names.push($scope.temp.currentParticipant);
-    k[$scope.temp.currentParticipant] = 0;
-    console.log("KKKKKKKKKKK ", k);
+      tempParticipants[$scope.temp.currentParticipant]={"vote":0};
 
-    tempParticipants.push(k);
+       $scope.names.push($scope.temp.currentParticipant);
+
+   // k[$scope.temp.currentParticipant] = 0;
+    //console.log("KKKKKKKKKKK ", k);
+
+  //  tempParticipants.push(k);
     console.log("tempparticipants*****", tempParticipants);
     $scope.temp.currentParticipant = "";
     // ionicToast.show('Added success.', 'middle', true, 2500);
@@ -201,7 +239,6 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     }, function (error) {
       // error
     });
-    $scope.events.listParticipants = tempParticipants;
     }
   };
 }])
@@ -346,8 +383,13 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     phonenumber:"",
     company:""
   };
-   var authUser=userService.getAuUser();
+
+  var authUser;
+ $scope.load = function(){
+   authUser=userService.getAuUser();
+
    var userIn=userService.getUser();
+   console.log(userIn);
    if(userIn){
 
      $scope.userinfo.gender=userIn.gender;
@@ -355,10 +397,27 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
      $scope.userinfo.company=userIn.company;
    }
 
+
+ }
+
    $scope.EditProfile=function(){
-     // var userDb=userService.getUserDb();
-     // var currentUser=userDb.child(authUser.uid);
+
        var currentUser = new Firebase("https://tuttut.firebaseio.com/users/"+authUser.uid);
+       var arrayref=currentUser.child('array1');
+       var temparray=userService.convertArray(arrayref);
+       var len=temparray.length;
+
+       for(var i=0;i< len;i++){
+         aaaRef=arrayref.child(temparray[i]).child("final");
+         console.log('i:'+i+'len:'+temparray.length);
+          aaaRef.push({
+            fitest:"finalTest"
+          });
+
+       }
+
+       console.log(temparray);
+
       currentUser.update({
           "gender":$scope.userinfo.gender,
           "phonenumber":$scope.userinfo.phonenumber,
@@ -377,6 +436,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
            });
           alertPop.then(function(res) {
            $state.go('tabsController.meDefaultPage',{},{reload:true});
+
+
          });
          }
         });
@@ -465,7 +526,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 })
 
 
-.controller('liveCtrl', function($scope,$state, $stateParams,$firebaseArray,$firebaseObject) {
+.controller('liveCtrl', function($scope,$state, $ionicPopup,$stateParams,$firebaseArray,$firebaseObject,userService) {
+
     $scope.config = {
         visible: true, // default: true
         extended: false, // default: false
@@ -504,10 +566,11 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
   };
     $scope.state = $state.current;
     $scope.params = $stateParams;
-    $scope.routingIndex = $stateParams.foo;
+    $scope.eventName = $stateParams.foo;
+
 
     var ref = new Firebase("https://tuttut.firebaseio.com/events");
-    var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/comments");
+    var y = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.eventName+"/comments");
 
     $scope.addcomment = function() {
       var data = $firebaseArray(y);
@@ -518,33 +581,76 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     };
 
     ref.on('value', function(data) {
-      $scope.comments = data.val()[$scope.routingIndex]['comments'];
-      $scope.participants = data.val()[$scope.routingIndex]['participants'];
-      $scope.data = [{
+
+
+      $scope.comments = data.val()[$scope.eventName]['comments'];
+      $scope.userList=data.val()[$scope.eventName]['user'];
+      console.log('usersssssss: ',$scope.userList);
+    });
+
+
+    $scope.things=[];
+    var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.eventName+"/participants");
+    z.on('value', function(data) {
+       $scope.data = [{
             key: "Cumulative Return",
             values: []
             }];
-      $scope.participants.forEach(function(key, value) {
-        var name, vote;
-        name = Object.keys(key);
-        vote = key[name];
-        console.log('name: ',name,'vote : ',vote);
-        $scope.data[0].values.push({ "label" : name , "value" : vote });
-      });
-      // $state.go($state.current, {}, {reload: true});
-    });
 
-    var z = new Firebase("https://tuttut.firebaseio.com/events/"+$scope.routingIndex+"/participants");
-    z.on('value', function(data) {
-      $scope.things = data.val();
-      $scope.indent =80/data.val().length;
-      $scope.vote = function(num) {
-        var key = Object.keys(data.val()[num]);
-        var value = data.val()[num][key];
-        var tobe = {[key]:value+1};
-        z.child(num+'/').update(tobe);
+      data.forEach(function(da){
 
+       $scope.things.push(da.key());
+       var name, vote;
+       name =da.key();
+       vote = da.val().vote;
+       console.log("label" , name,"value" , vote);
+       $scope.data[0].values.push({ "label" : name , "value" : vote });
+     });
+     // $scope.things = data.val();
+
+      $scope.indent =80/$scope.things.length;
+      $scope.vote = function(name) {
+
+         var userId=userService.getAuUser().uid;
+
+         if(checkUserVoteRight(userId)){
+          // var key = Object.keys(data.val()[num])
+         var value = data.val()[name].vote+1;
+         console.log("this",name);
+        // var tobe = {[key]:value+1}
+      //   z.child(name).child("vote/").update(value);
+           z.child(name).update({
+            vote:value
+           });
+
+           ref.child($scope.eventName).child("user").push({
+            userid:userId});
+         }else{
+           var alertPop=$ionicPopup.alert({
+             title:"Vote",
+             template:"Soooorry~cannot vote twice! "
+           });
+
+
+         }
       };
     });
+
+  function checkUserVoteRight(userId){
+    var right=true;
+
+        if($scope.userList!==""){
+            var userKeys=Object.keys($scope.userList);
+            console.log("checkUserVoteRight userIDDDDD:",userKeys);
+
+           for(var i=0;i<userKeys.length;i++){
+             if($scope.userList[userKeys[i]].userid==userId){
+              right=false;
+            }
+          }
+
+        }
+    return right;
+  }
 
 });

@@ -40,6 +40,15 @@ angular.module('app.services', [])
       userRef = ref.child(str);
     }
     return userRef;
+   },
+   convertArray:function(ref){
+     var tempArray = [];
+     ref.on("value", function(snapshot) {
+          snapshot.forEach(function(data) {
+             tempArray.push(data.key());
+             });
+          });
+     return tempArray;
    }
  }
 }]);
