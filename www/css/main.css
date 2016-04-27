@@ -19,7 +19,7 @@
 .list-wrapper .ion-android-cancel{
     transform: scale(1.5,1.5);
     position: absolute;
-    right: -10px;
+    right: -12px;
     z-index: 1;
-    top: 7px;
+    top: 9px;
 }
