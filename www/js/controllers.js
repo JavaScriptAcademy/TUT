@@ -49,6 +49,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
 // .controller('createDefaultPageCtrl',['$scope','$firebaseObject','$ionicPopup','$state','$cordovaDatePicker', '$cordovaToast', function($scope,$firebaseObject,$ionicPopup,$state,$cordovaDatePicker,$cordovaToast){
 
   var ref = new Firebase("https://tuttut.firebaseio.com");
+
   // https://tuttut.firebaseio.com https://fionatutprac.firebaseio.com/
 
   index = 0;
@@ -130,15 +131,15 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
            });
          }else{
             console.log("xxxxxxxxxxxxxxxxxxxxxxx"+tempParticipants.length);
-          $scope.events.name='';
+
+         }
+        });
+              $scope.events.name='';
               $scope.events.host='';
               $scope.events.info='';
               $scope.events.time='';
 
               $scope.names='';
-
-         }
-        });
       $state.go('tabsController.listDefaultPage',{},{reload:true});
     }
   };
@@ -517,7 +518,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
             key: "Cumulative Return",
             values: []
             }];
-
+      $scope.things =  [];
       data.forEach(function(da){
 
        $scope.things.push(da.key());
@@ -529,7 +530,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
      });
      // $scope.things = data.val();
 
-      $scope.indent =80/$scope.things.length;
+      $scope.indent =150/$scope.things.length;
       $scope.vote = function(name) {
 
          var userId=userService.getAuUser().uid;
