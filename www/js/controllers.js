@@ -520,7 +520,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         },
         transitionDuration: 500,
         xAxis: {
-            axisLabel: 'Brand'
+            axisLabel: ''
         },
         yAxis: {
             axisLabel: 'Y Axis',
@@ -569,7 +569,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
        console.log("label" , name,"value" , vote);
        $scope.data[0].values.push({ "label" : name , "value" : vote });
      });
-      $scope.indent =120/$scope.things.length;
+      $scope.indent =130/$scope.things.length;
       $scope.vote = function(name) {
 
          var userId=userService.getAuUser().uid;
