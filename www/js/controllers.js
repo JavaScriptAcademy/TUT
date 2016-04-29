@@ -569,7 +569,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
        console.log("label" , name,"value" , vote);
        $scope.data[0].values.push({ "label" : name , "value" : vote });
      });
-      $scope.indent =130/$scope.things.length;
+      $scope.indent =(146-$scope.things.length*40)/$scope.things.length;
       $scope.vote = function(name) {
 
          var userId=userService.getAuUser().uid;
