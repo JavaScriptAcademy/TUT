@@ -23,12 +23,12 @@
                 <span class="input-label">Event InFo</span>
                 <input ng-model="events.info" type="text">
             </label>
-                <span class="input-label" style="margin-left:6px; margin-top:10px">Participants:</span>
+                <span class="input-label" style="margin-left:6px; margin-top:10px">Things To Add:</span>
             <button ng-repeat='name in names' class='button button-small button-balanced' id='name'>          {{name}}
             </button>
             <div class='row'>
                 <label class="item item-input col col-80">
-                <input id="inputText" type="text" placeholder="Add participants" ng-model="temp.currentParticipant">
+                <input id="inputText" type="text" placeholder="Please type here" ng-model="temp.currentParticipant">
 
                 </label>
                 <button class="button button-positive button-small col col-20" ng-click="addParticipants()">

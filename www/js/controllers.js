@@ -85,8 +85,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
               $scope.events.info='';
               $scope.events.time='';
 
-              $scope.names='';
-
+              $scope.names=[];
+              tempParticipants = {};
               $state.go('tabsController.listDefaultPage');
              }else{
               }
@@ -139,7 +139,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
               $scope.events.info='';
               $scope.events.time='';
 
-              $scope.names='';
+              $scope.names=[];
+              tempParticipants = {};
       $state.go('tabsController.listDefaultPage',{},{reload:true});
     }
   };
@@ -162,6 +163,13 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
     $scope.temp.currentParticipant = "";
 
 
+    // $cordovaToast
+    // .show('You added a participant!', 'long', 'center')
+    // .then(function(success) {
+    //   // success
+    // }, function (error) {
+    //   // error
+    // });
     }
   };
 }])
@@ -195,6 +203,8 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         $scope.onFoucs = function() {
           document.querySelectorAll('#eventsListDisplay')[0].style.display = 'none';
           document.querySelectorAll('#searchResultsDisplay')[0].style.display = 'block';
+          $scope.result = '';
+
           console.log('show list');
         };
         $scope.hideEventDisplay = function() {
@@ -476,7 +486,7 @@ angular.module('app.controllers', ['app.services','firebase','nvd3'])
         y: function(d){ return d.value; },
         showValues: true,
         valueFormat: function(d){
-            return d3.format(',.4f')(d);
+            return d3.format(',.0sssf')(d);
         },
         transitionDuration: 500,
         xAxis: {
