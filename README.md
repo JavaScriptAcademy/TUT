@@ -3,14 +3,14 @@
 
 * An online mobile voting application than enables users to publish any kind of voting event.
 
-# Main Feature
+## Main Feature
 
 * Create event
 * Vote
 * Comment
 * Search event
 
-# Main Techs
+## Main Techs
 
 * Ionic
 * Angular
