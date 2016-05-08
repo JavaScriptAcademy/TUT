@@ -28,7 +28,7 @@
 $ npm install -g cordova ionic
 ```
 
-* clone the repo: git@github.com:JavaScriptAcademy/InstPhoto.git
+* clone the repo: git@github.com:JavaScriptAcademy/TUT.git
 * install dependance
 ```bash
 $ npm install
